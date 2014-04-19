@@ -7,3 +7,6 @@
 [submodule "dependencies/checker-framework-releases"]
 	path = dependencies/checker-framework-releases
 	url = https://reprogrammer@bitbucket.org/reprogrammer/checker-framework-releases.git
+[submodule "dependencies/jsr308-langtools-releases"]
+	path = dependencies/jsr308-langtools-releases
+	url = https://reprogrammer@bitbucket.org/reprogrammer/jsr308-langtools-releases.git
