@@ -64,11 +64,10 @@ RM = rm
 
 MKDIR = mkdir
 
-JAVAC = \
-	$(DEPENDENCIES_REORGANIZED_FOLDER)/checker-framework/binary/javac
+JAVAC = $(DEPENDENCIES_REORGANIZED_FOLDER)/checker-framework/checker/bin/javac
 
-
-JAVAC_OPTS = -Awarns -processor checkers.nullness.NullnessChecker
+JAVAC_OPTS = -Awarns -processor\
+	     org.checkerframework.checker.nullness.NullnessChecker
 
 JAR = jar
 
@@ -115,6 +114,10 @@ $(AUTOMATICALLY_ANNOTATED_JAVA_FILES): $(DEPENDENCIES_REORGANIZED_FOLDER) \
 	CLASSPATH=$(CLASS_FOLDER) $(INSERT_ANNOTATIONS_TO_SOURCE) \
 		  --in-place=true $(JAIF_FILE) \
 		  $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
+
+	sed -i \
+		"s/checkers.nullness.quals/org.checkerframework.checker.nullness.qual/"\
+		$(JAIF_FILE)
 
 $(AUTOMATIC_JAR_FILE): $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
 
