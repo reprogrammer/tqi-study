@@ -1,0 +1,160 @@
+# java -Xmx1G -classpath $(echo dependencies/julia-releases/binaries/*.jar | tr ' ' ':') com.juliasoft.julia.engine.Julia -si jolden-mst-julia/mst.jar -i java. -framework java -Nullness list jaif
+
+SHELL = /bin/bash
+
+JAVA_HOME ?= $(dirname $(dirname $(dirname $(readlink -f $(/usr/bin/which java)))))
+
+RT_JAR = $(JAVA_HOME)/jre/lib/rt.jar
+
+DEPENDENCIES_FOLDER = ../../../dependencies
+
+DEPENDENCIES_REORGANIZED_FOLDER = ../../../dependencies-reorganized
+
+ANNOTATION_TOOLS_FOLDER = \
+			  $(DEPENDENCIES_FOLDER)/annotation-file-utilities-releases/annotation-tools
+
+JSR308_LANGTOOLS_FOLDER = \
+			  $(DEPENDENCIES_FOLDER)/jsr308-langtools-releases/jsr308-langtools
+
+CHECKER_FRAMEWORK_FOLDER = \
+			   $(DEPENDENCIES_FOLDER)/checker-framework-releases/checker-framework
+
+INSERT_ANNOTATIONS_TO_SOURCE = \
+			       $(DEPENDENCIES_REORGANIZED_FOLDER)/annotation-tools/annotation-file-utilities/scripts/insert-annotations-to-source
+
+SRC_FOLDER = $(DEPENDENCIES_FOLDER)/jolden/$(PROGRAM)/src
+
+AUTOMATICALLY_ANNOTATED_SRC_FOLDER ?= automatically-jaifed-src
+
+MANUALLY_ANNOTATED_SRC_FOLDER ?= automatically-jaifed-fixed-src
+
+SRC_FOLDER_COPY ?= src-copy
+
+CLASS_FOLDER = $(DEPENDENCIES_FOLDER)/jolden/$(PROGRAM)/bin
+
+AUTOMATICALLY_ANNOTATED_CLASS_FOLDER ?= automatically-jaifed-bin
+
+MANUALLY_ANNOTATED_CLASS_FOLDER ?= automatically-jaifed-fixed-bin
+
+JAVA_FILES = $(wildcard $(SRC_FOLDER)/*.java)
+
+AUTOMATICALLY_ANNOTATED_JAVA_FILES = $(addprefix \
+				     $(AUTOMATICALLY_ANNOTATED_SRC_FOLDER)/, \
+				     $(notdir $(JAVA_FILES)))
+
+MANUALLY_ANNOTATED_JAVA_FILES = $(addprefix $(MANUALLY_ANNOTATED_SRC_FOLDER)/, \
+				$(notdir $(JAVA_FILES)))
+
+JAVA_FILES_COPY = $(addprefix $(SRC_FOLDER_COPY)/, $(notdir $(JAVA_FILES)))
+
+JAIF_FOLDER = jaif
+
+JAIF_FILE = $(JAIF_FOLDER)/$(PROGRAM)-nullness-julia.jaif
+
+AUTOMATIC_JAR_FILE = $(PROGRAM)-automatic.jar
+
+MANUAL_JAR_FILE = $(PROGRAM)-manual.jar
+
+CP = cp
+
+MV = mv
+
+RM = rm
+
+MKDIR = mkdir
+
+JAVAC = \
+	$(DEPENDENCIES_REORGANIZED_FOLDER)/checker-framework/checkers/binary/javac
+
+
+JAVAC_OPTS = -Awarns -processor checkers.nullness.NullnessChecker
+
+JAVAC_IMMUTABILITY_OPTS = -Awarns -processor checkers.inference.reim.ReimChecker
+
+JAR = jar
+
+JAR_OPTS = cfe
+
+JAVA = java
+
+JAVA_OPTS = -ea
+
+all: $(AUTOMATIC_JAR_FILE)
+
+$(DEPENDENCIES_REORGANIZED_FOLDER): $(ANNOTATION_TOOLS_FOLDER) \
+	$(JSR308_LANGTOOLS_FOLDER) $(CHECKER_FRAMEWORK_FOLDER) \
+
+	$(MKDIR) -p $(DEPENDENCIES_REORGANIZED_FOLDER)
+
+	$(CP) -r $(ANNOTATION_TOOLS_FOLDER) $(DEPENDENCIES_REORGANIZED_FOLDER)
+
+	$(CP) -r $(JSR308_LANGTOOLS_FOLDER) $(DEPENDENCIES_REORGANIZED_FOLDER)
+
+	$(CP) -r $(CHECKER_FRAMEWORK_FOLDER) $(DEPENDENCIES_REORGANIZED_FOLDER)
+
+$(AUTOMATICALLY_ANNOTATED_JAVA_FILES): $(DEPENDENCIES_REORGANIZED_FOLDER) \
+	$(JAVA_FILES) $(JAIF_FILE)
+
+	$(MKDIR) -p $(AUTOMATICALLY_ANNOTATED_SRC_FOLDER)
+
+	$(CP) -r $(SRC_FOLDER)/* $(AUTOMATICALLY_ANNOTATED_SRC_FOLDER)
+        
+	CLASSPATH=$(CLASS_FOLDER) $(INSERT_ANNOTATIONS_TO_SOURCE) \
+		  --in-place=true $(JAIF_FILE) \
+		  $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
+
+$(NIT_JAIF_FILE): $(JAVA_FILES)
+
+	$(NIT) --classpath $(CLASS_FOLDER):$(RT_JAR) --main $(MAIN_CLASS) \
+		--anno-file-output $(NIT_JAIF_FILE)
+
+$(JAVA_FILES_ANNOTATED_BY_JASTADD): $(JASTADDJ_NONNULLINFERENCE_JAR) \
+	$(JAVA_FILES)
+
+	$(MKDIR) -p $(SRC_FOLDER_COPY)
+
+	$(CP) -rf $(SRC_FOLDER)/* $(SRC_FOLDER_COPY)
+
+	$(JAVA) -jar $(JASTADDJ_NONNULLINFERENCE_JAR) $(JAVA_FILES_COPY)
+
+	$(MV) inferred/$(SRC_FOLDER_COPY)/* $(SRC_FOLDER_ANNOTATED_BY_JASTADD)
+
+	$(RM) -rf inferred
+
+$(AUTOMATIC_JAR_FILE): $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
+
+	$(MKDIR) -p $(AUTOMATICALLY_ANNOTATED_CLASS_FOLDER)
+
+	$(JAVAC) $(JAVAC_OPTS) -d $(AUTOMATICALLY_ANNOTATED_CLASS_FOLDER) \
+		$(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
+
+	$(JAR) $(JAR_OPTS) $(AUTOMATIC_JAR_FILE) $(MAIN_CLASS) -C \
+		$(AUTOMATICALLY_ANNOTATED_CLASS_FOLDER) .
+
+$(MANUAL_JAR_FILE): $(DEPENDENCIES_REORGANIZED_FOLDER) \
+	$(MANUALLY_ANNOTATED_JAVA_FILES)
+
+	$(MKDIR) -p $(MANUALLY_ANNOTATED_CLASS_FOLDER)
+
+	$(JAVAC) $(JAVAC_OPTS) -d $(MANUALLY_ANNOTATED_CLASS_FOLDER) \
+		$(MANUALLY_ANNOTATED_JAVA_FILES)
+
+	$(JAR) $(JAR_OPTS) $(MANUAL_JAR_FILE) $(MAIN_CLASS) -C \
+		$(MANUALLY_ANNOTATED_CLASS_FOLDER) .
+
+run-automatic : $(AUTOMATIC_JAR_FILE)
+
+	$(JAVA) $(JAVA_OPTS) -jar $(AUTOMATIC_JAR_FILE) $(PROGRAM_ARGS)
+
+run-manual : $(MANUAL_JAR_FILE)
+
+	$(JAVA) $(JAVA_OPTS) -jar $(MANUAL_JAR_FILE) $(PROGRAM_ARGS)
+
+clean:
+
+	$(RM) -rf $(DEPENDENCIES_REORGANIZED_FOLDER) \
+		$(AUTOMATICALLY_ANNOTATED_JAVA_FILES) \
+		$(AUTOMATICALLY_ANNOTATED_CLASS_FOLDER) \
+		$(MANUALLY_ANNOTATED_CLASS_FOLDER) $(AUTOMATIC_JAR_FILE) \
+		$(MANUAL_JAR_FILE) $(SRC_FOLDER_COPY)
+
