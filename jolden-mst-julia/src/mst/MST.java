@@ -1,4 +1,4 @@
-import java.io.*;
+package mst;
 
 /**
  * A Java implementation of the <tt>mst</tt> Olden benchmark. The Olden benchmark computes the

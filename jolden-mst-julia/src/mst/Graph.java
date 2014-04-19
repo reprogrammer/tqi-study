@@ -1,3 +1,4 @@
+package mst;
 /**
  * A class that represents a graph data structure.
  **/
@@ -7,7 +8,7 @@ public class Graph {
    **/
   private Vertex[] nodes;
 
-  // parameters for the random number generater
+  // parameters for the random number generator
   private final static int CONST_m1 = 10000;
   private final static int CONST_b = 31415821;
   private final static int RANGE = 2048;

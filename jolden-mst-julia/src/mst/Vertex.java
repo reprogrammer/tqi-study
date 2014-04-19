@@ -1,3 +1,4 @@
+package mst;
 /**
  * A class that represents a vertex in a graph. We maintain a linked list representation of the
  * vertices.
