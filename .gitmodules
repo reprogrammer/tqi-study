@@ -4,3 +4,6 @@
 [submodule "dependencies/annotation-file-utilities-releases"]
 	path = dependencies/annotation-file-utilities-releases
 	url = https://reprogrammer@bitbucket.org/reprogrammer/annotation-file-utilities-releases.git
+[submodule "dependencies/checker-framework-releases"]
+	path = dependencies/checker-framework-releases
+	url = https://reprogrammer@bitbucket.org/reprogrammer/checker-framework-releases.git
