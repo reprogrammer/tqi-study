@@ -100,7 +100,7 @@ $(MANUAL_JAR_FILE): $(JAVA_FILES)
 
 $(JAIF_FILE): $(MANUAL_JAR_FILE)
 
-	$(JAVA) -Xmx1G -classpath $(JULIA_JARS)\
+	time $(JAVA) -Xmx1G -classpath $(JULIA_JARS)\
 		com.juliasoft.julia.engine.Julia -si $(MANUAL_JAR_FILE) -i\
 		java. -framework java -Nullness list jaif
 
