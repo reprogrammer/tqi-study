@@ -97,10 +97,8 @@ public class MST {
     } else
       System.out.println("Not found");
 
-    int count = 0;
     // We are guaranteed that inserted is not first in list
     for (Vertex tmp = vlist.next(); tmp != null; prev = tmp, tmp = tmp.next()) {
-      count++;
       if (tmp == inserted) {
         Vertex next = tmp.next();
         prev.setNext(next);
