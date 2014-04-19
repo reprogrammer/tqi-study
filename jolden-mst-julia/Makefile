@@ -104,6 +104,10 @@ $(JAIF_FILE): $(MANUAL_JAR_FILE)
 		com.juliasoft.julia.engine.Julia -si $(MANUAL_JAR_FILE) -i\
 		java. -framework java -Nullness list jaif
 
+	sed -i \
+		"s/checkers.nullness.quals/org.checkerframework.checker.nullness.qual/"\
+		$(JAIF_FILE)
+
 $(AUTOMATICALLY_ANNOTATED_JAVA_FILES): $(DEPENDENCIES_REORGANIZED_FOLDER) \
 	$(JAVA_FILES) $(JAIF_FILE)
 
@@ -114,10 +118,6 @@ $(AUTOMATICALLY_ANNOTATED_JAVA_FILES): $(DEPENDENCIES_REORGANIZED_FOLDER) \
 	CLASSPATH=$(CLASS_FOLDER) $(INSERT_ANNOTATIONS_TO_SOURCE) \
 		  --in-place=true $(JAIF_FILE) \
 		  $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
-
-	sed -i \
-		"s/checkers.nullness.quals/org.checkerframework.checker.nullness.qual/"\
-		$(JAIF_FILE)
 
 $(AUTOMATIC_JAR_FILE): $(AUTOMATICALLY_ANNOTATED_JAVA_FILES)
 
