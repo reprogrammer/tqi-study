@@ -1,3 +1,6 @@
 [submodule "dependencies/julia-releases"]
 	path = dependencies/julia-releases
 	url = https://reprogrammer@bitbucket.org/reprogrammer/julia-releases.git
+[submodule "dependencies/annotation-file-utilities-releases"]
+	path = dependencies/annotation-file-utilities-releases
+	url = https://reprogrammer@bitbucket.org/reprogrammer/annotation-file-utilities-releases.git
