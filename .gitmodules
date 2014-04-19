@@ -1,0 +1,3 @@
+[submodule "dependencies/julia-releases"]
+	path = dependencies/julia-releases
+	url = https://reprogrammer@bitbucket.org/reprogrammer/julia-releases.git
