@@ -2,19 +2,49 @@
 
 <project name="jolden-mst" default="main" basedir=".">
 	<property environment="env" />
-	<property name="checkerframework" value="${env.CHECKERFRAMEWORK}" />
-	<property name="dependencies" value="${env.DEPENDENCIES}" />
+	<property name="original.deps" value="${env.DEPENDENCIES}" />
+	<property name="julia" value="${original.deps}/julia-releases" />
 
 	<property name="program" value="mst" />
 	<property name="main.class" value="mst.MST" />
-	<property name="insert.annotations"
-		value="${dependencies}/annotation-file-utilities-releases/annotation-tools/annotation-file-utilities/scripts/insert-annotations-to-source" />
 
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
-	<property name="julia.output.dir" location="juliaOutput" />
-	<property name="julia.jaif" location="${julia.output.dir}/nullness.jaif" />
+	<property name="julia.dir" location="juliaOutput" />
+	<property name="julia.jaif" location="${julia.dir}/nullness.jaif" />
+	<property name="dependencies" location="../dependencies-reorganized" />
+	<property name="checkerframework" value="${dependencies}/checker-framework/checker" />
+	<property name="insert.annotations"
+		value="${dependencies}/annotation-tools/annotation-file-utilities/scripts/insert-annotations-to-source" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${julia.dir}" />
+		<delete dir="${dependencies}" />
+	</target>
+
+	<target name="makedir">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dependencies}" />
+	</target>
+
+	<target name="reorg.deps" depends="makedir">
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/annotation-file-utilities-releases/annotation-tools ${dependencies}" />
+		</exec>
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/jsr308-langtools-releases/jsr308-langtools ${dependencies}" />
+		</exec>
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/checker-framework-releases/checker-framework ${dependencies}" />
+		</exec>
+	</target>
 
 	<!-- On Mac/Linux, use the javac shell script; on Windows, use javac.bat -->
 	<condition property="cfJavac" value="javac.bat" else="javac">
@@ -22,23 +52,13 @@
 	</condition>
 
 	<presetdef name="jsr308.javac">
-		<javac fork="yes" executable="${checkerframework}/checker/bin/${cfJavac}">
+		<javac fork="yes" executable="${checkerframework}/bin/${cfJavac}">
 			<!-- JSR-308-related compiler arguments -->
 			<compilerarg value="-version" />
 		</javac>
 	</presetdef>
 
-	<target name="clean">
-		<delete dir="${build.dir}" />
-		<delete dir="${dist.dir}" />
-	</target>
-
-	<target name="makedir">
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${dist.dir}" />
-	</target>
-
-	<target name="compile" depends="clean, makedir">
+	<target name="compile" depends="clean, reorg.deps">
 		<!-- use jsr308.javac instead of javac -->
 		<jsr308.javac srcdir="${src.dir}" destdir="${build.dir}"
 			failonerror="false">
@@ -63,7 +83,7 @@
 
 	<!-- http://stackoverflow.com/a/1988870 -->
 	<path id="julia.class.path">
-		<fileset dir="${env.JULIA}/binaries">
+		<fileset dir="${julia}/binaries">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -87,16 +107,18 @@
 
 	<pathconvert pathsep=" " property="src.files.line" refid="src.files" />
 
-	<!-- target name="annotate" depends="julia" -->
-	<target name="annotate">
+	<target name="annotate" depends="julia">
 		<exec dir="." executable="/bin/bash" osfamily="unix">
-			<env key="CLASSPATH" value="${build.dir}"></env>
+			<!-- env key="CLASSPATH" value="${env.CLASSPATH}:${build.dir}"></env -->
 			<arg
 				line="${insert.annotations} --in-place=true ${julia.jaif} ${src.files.line}" />
 		</exec>
+		<delete>
+			<fileset dir="${src.dir}" includes="**/*.unannotated" />
+		</delete>
 	</target>
 
-	<target name="main" depends="compile, jar, julia, annotate">
+	<target name="main" depends="annotate">
 		<description>Main target</description>
 	</target>
 
