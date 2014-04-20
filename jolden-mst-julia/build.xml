@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="jolden-mst" default="main" basedir=".">
+	<property environment="env" />
+	<property name="checkerframework" value="${env.CHECKERFRAMEWORK}" />
+	<property name="dependencies" value="${env.DEPENDENCIES}" />
+
 	<property name="program" value="mst" />
+	<property name="main.class" value="mst.MST" />
+	<property name="insert.annotations"
+		value="${dependencies}/annotation-file-utilities-releases/annotation-tools/annotation-file-utilities/scripts/insert-annotations-to-source" />
+
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
-	<property name="main.class" location="mst.MST" />
-
-	<property environment="env" />
-
-	<property name="checkerframework" value="${env.CHECKERFRAMEWORK}" />
+	<property name="julia.output.dir" location="juliaOutput" />
+	<property name="julia.jaif" location="${julia.output.dir}/nullness.jaif" />
 
 	<!-- On Mac/Linux, use the javac shell script; on Windows, use javac.bat -->
 	<condition property="cfJavac" value="javac.bat" else="javac">
@@ -48,7 +53,6 @@
 	</target>
 
 	<target name="jar" depends="compile">
-	<echo>${program}</echo>
 		<jar destfile="${dist.dir}/${program}.jar">
 			<fileset dir="${build.dir}" />
 			<manifest>
@@ -57,7 +61,42 @@
 		</jar>
 	</target>
 
-	<target name="main" depends="compile, jar">
+	<!-- http://stackoverflow.com/a/1988870 -->
+	<path id="julia.class.path">
+		<fileset dir="${env.JULIA}/binaries">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="julia" depends="jar">
+		<java classname="com.juliasoft.julia.engine.Julia" fork="true"
+			maxmemory="1G" jvm="${env.JVM7}">
+			<classpath refid="julia.class.path" />
+			<!-- http://ant.apache.org/manual/using.html#arg -->
+			<arg
+				line="-si ${dist.dir}/${program}.jar -i java. -framework java -Nullness list jaif"></arg>
+		</java>
+		<!-- https://ant.apache.org/manual/Tasks/replace.html -->
+		<replace file="${julia.jaif}" token="checkers.nullness.quals"
+			value="org.checkerframework.checker.nullness.qual" />
+	</target>
+
+	<fileset dir="${src.dir}" id="src.files">
+		<include name="**/*.java" />
+	</fileset>
+
+	<pathconvert pathsep=" " property="src.files.line" refid="src.files" />
+
+	<!-- target name="annotate" depends="julia" -->
+	<target name="annotate">
+		<exec dir="." executable="/bin/bash" osfamily="unix">
+			<env key="CLASSPATH" value="${build.dir}"></env>
+			<arg
+				line="${insert.annotations} --in-place=true ${julia.jaif} ${src.files.line}" />
+		</exec>
+	</target>
+
+	<target name="main" depends="compile, jar, julia, annotate">
 		<description>Main target</description>
 	</target>
 

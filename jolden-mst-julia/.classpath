@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/checkers-quals-java-8.jar"/>
 	<classpathentry kind="lib" path="lib/javac.jar"/>
+	<classpathentry kind="lib" path="lib/checker-qual.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
