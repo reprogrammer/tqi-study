@@ -17,7 +17,7 @@
 	<property name="julia" value="${original.deps}/julia-releases" />
 
 	<property name="program" value="mst" />
-	<property name="main.class" value="mst.MST" />
+	<property name="main.class" value="${program}.MST" />
 
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="classes" />
