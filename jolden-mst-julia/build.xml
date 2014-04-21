@@ -20,7 +20,7 @@
 	<property name="main.class" value="mst.MST" />
 
 	<property name="src.dir" location="src" />
-	<property name="build.dir" location="bin" />
+	<property name="build.dir" location="classes" />
 	<property name="dist.dir" location="dist" />
 	<property name="julia.dir" location="juliaOutput" />
 	<property name="julia.jaif" location="${julia.dir}/nullness.jaif" />
