@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jolden-treeadd" default="main" basedir=".">
+	<property environment="env" />
+
+	<target name="check.vars">
+		<fail unless="env.DEPENDENCIES"
+			message="The environment variable DEPENDENCIES should be set to the dependencies directory." />
+		<fail unless="env.JVM7"
+			message="The environment variable JVM7 should be set to the path to the java 7 runtime." />
+		<fail unless="env.JUNIT_JAR"
+			message="The environment variable JUNIT_JAR should be set to the path to the JUnit 4 JAR file that comes with the running Eclipse installation." />
+	</target>
+
+	<property name="original.deps" value="${user.home}/${env.DEPENDENCIES}" />
+	<property name="junit.jar" value="${env.JUNIT_JAR}" />
+	<property name="julia" value="${original.deps}/julia-releases" />
+
+	<property name="program" value="treeadd" />
+	<property name="main.class" value="${program}.TreeAdd" />
+
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="classes" />
+	<property name="dist.dir" location="dist" />
+	<property name="julia.dir" location="juliaOutput" />
+	<property name="julia.jaif" location="${julia.dir}/nullness.jaif" />
+	<property name="dependencies" location="../dependencies-reorganized" />
+	<property name="checkerframework" value="${dependencies}/checker-framework/checker" />
+	<property name="insert.annotations"
+		value="${dependencies}/annotation-tools/annotation-file-utilities/scripts/insert-annotations-to-source" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${julia.dir}" />
+		<delete dir="${dependencies}" />
+	</target>
+
+	<target name="makedir" depends="check.vars">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dependencies}" />
+	</target>
+
+	<target name="reorg.deps" depends="makedir">
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/annotation-file-utilities-releases/annotation-tools ${dependencies}" />
+		</exec>
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/jsr308-langtools-releases/jsr308-langtools ${dependencies}" />
+		</exec>
+		<exec executable="cp">
+			<arg
+				line="-r ${original.deps}/checker-framework-releases/checker-framework ${dependencies}" />
+		</exec>
+	</target>
+
+	<!-- On Mac/Linux, use the javac shell script; on Windows, use javac.bat -->
+	<condition property="cfJavac" value="javac.bat" else="javac">
+		<os family="windows" />
+	</condition>
+
+	<presetdef name="jsr308.javac">
+		<javac fork="yes" executable="${checkerframework}/bin/${cfJavac}">
+			<!-- JSR-308-related compiler arguments -->
+			<compilerarg value="-version" />
+		</javac>
+	</presetdef>
+
+	<target name="compile" depends="clean, reorg.deps">
+		<!-- use jsr308.javac instead of javac -->
+		<jsr308.javac srcdir="${src.dir}" classpath="${junit.jar}"
+			destdir="${build.dir}" failonerror="false">
+			<compilerarg
+				line="-processor org.checkerframework.checker.nullness.NullnessChecker" />
+			<!-- optional, for implicit imports: <compilerarg value="-J-Djsr308_imports=org.checkerframework.checker.nullness.qual.*:org.checkerframework.dataflow.qual.*"/> -->
+			<!-- optional, to not check uses of library methods: <compilerarg value="-AskipUses=^(java\.awt\.|javax\.swing\.)"/> -->
+			<compilerarg line="-Xmaxerrs 10000" />
+			<compilerarg line="-Awarns" />
+			<compilerarg line="-Xmaxwarns 10000" />
+		</jsr308.javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${dist.dir}/${program}.jar">
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- http://stackoverflow.com/a/1988870 -->
+	<path id="julia.class.path">
+		<fileset dir="${julia}/binaries">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="julia" depends="jar">
+		<java classname="com.juliasoft.julia.engine.Julia" fork="true"
+			maxmemory="1G" jvm="${env.JVM7}">
+			<classpath refid="julia.class.path" />
+			<!-- http://ant.apache.org/manual/using.html#arg -->
+			<arg
+				line="-si ${dist.dir}/${program}.jar -i java. -framework java -Nullness list jaif"></arg>
+		</java>
+		<!-- https://ant.apache.org/manual/Tasks/replace.html -->
+		<replace file="${julia.jaif}" token="checkers.nullness.quals"
+			value="org.checkerframework.checker.nullness.qual" />
+	</target>
+
+	<fileset dir="${src.dir}" id="src.files">
+		<include name="**/*.java" />
+	</fileset>
+
+	<pathconvert pathsep=" " property="src.files.line" refid="src.files" />
+
+	<target name="annotate" depends="julia">
+		<exec dir="." executable="/bin/bash" osfamily="unix">
+			<!-- env key="CLASSPATH" value="${env.CLASSPATH}:${build.dir}"></env -->
+			<arg
+				line="${insert.annotations} --in-place=true ${julia.jaif} ${src.files.line}" />
+		</exec>
+		<delete>
+			<fileset dir="${src.dir}" includes="**/*.unannotated" />
+		</delete>
+	</target>
+
+	<target name="main" depends="annotate">
+		<description>Main target</description>
+	</target>
+
+</project>
