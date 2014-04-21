@@ -8,9 +8,12 @@
 			message="The environment variable DEPENDENCIES should be set to the dependencies directory." />
 		<fail unless="env.JVM7"
 			message="The environment variable JVM7 should be set to the path to the java 7 runtime." />
+		<fail unless="env.JUNIT_JAR"
+			message="The environment variable JUNIT_JAR should be set to the path to the JUnit 4 JAR file that comes with the running Eclipse installation." />
 	</target>
 
-	<property name="original.deps" value="${env.DEPENDENCIES}" />
+	<property name="original.deps" value="${user.home}/${env.DEPENDENCIES}" />
+	<property name="junit.jar" value="${env.JUNIT_JAR}" />
 	<property name="julia" value="${original.deps}/julia-releases" />
 
 	<property name="program" value="mst" />
@@ -68,8 +71,8 @@
 
 	<target name="compile" depends="clean, reorg.deps">
 		<!-- use jsr308.javac instead of javac -->
-		<jsr308.javac srcdir="${src.dir}" destdir="${build.dir}"
-			failonerror="false">
+		<jsr308.javac srcdir="${src.dir}" classpath="${junit.jar}"
+			destdir="${build.dir}" failonerror="false">
 			<compilerarg
 				line="-processor org.checkerframework.checker.nullness.NullnessChecker" />
 			<!-- optional, for implicit imports: <compilerarg value="-J-Djsr308_imports=org.checkerframework.checker.nullness.qual.*:org.checkerframework.dataflow.qual.*"/> -->
