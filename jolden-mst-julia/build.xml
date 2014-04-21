@@ -2,6 +2,14 @@
 
 <project name="jolden-mst" default="main" basedir=".">
 	<property environment="env" />
+
+	<target name="check.vars">
+		<fail unless="env.DEPENDENCIES"
+			message="The environment variable DEPENDENCIES should be set to the dependencies directory." />
+		<fail unless="env.JVM7"
+			message="The environment variable JVM7 should be set to the path to the java 7 runtime." />
+	</target>
+
 	<property name="original.deps" value="${env.DEPENDENCIES}" />
 	<property name="julia" value="${original.deps}/julia-releases" />
 
@@ -25,7 +33,7 @@
 		<delete dir="${dependencies}" />
 	</target>
 
-	<target name="makedir">
+	<target name="makedir" depends="check.vars">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dependencies}" />
