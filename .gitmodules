@@ -1,6 +1,3 @@
-[submodule "deps/julia-releases"]
-	path = deps/julia-releases
-	url = https://reprogrammer@bitbucket.org/reprogrammer/julia-releases.git
 [submodule "deps/checker-framework-releases"]
 	path = deps/checker-framework-releases
 	url = https://github.com/reprogrammer/checker-framework-releases.git
