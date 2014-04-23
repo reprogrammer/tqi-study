@@ -7,16 +7,17 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="DEPENDENCIES" value="git/type-qualifier-inference/tqi-study/dependencies"/>
-<mapEntry key="JUNIT_JAR" value="${eclipse_home}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
-<mapEntry key="JVM7" value="/usr/lib/jvm/java-7-oracle/bin/java"/>
-</mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.ant.internal.launching.remote.InternalAntRunner"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="jolden-mst"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
+<mapAttribute key="org.eclipse.ui.externaltools.ATTR_ANT_PROPERTIES">
+<mapEntry key="eclipse.pdebuild.home" value="${eclipse_home}plugins/org.eclipse.pde.build_3.8.100.v20130514-1028/./"/>
+<mapEntry key="eclipse.pdebuild.scripts" value="${eclipse_home}org.eclipse.pde.build_3.8.100.v20130514-1028/scripts/"/>
+<mapEntry key="eclipse.pdebuild.templates" value="${eclipse_home}org.eclipse.pde.build_3.8.100.v20130514-1028/templates/"/>
+</mapAttribute>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_ANT_PROPERTY_FILES" value="${workspace_loc:/jolden-mst/build.properties},"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/jolden-mst/build.xml}"/>
 <stringAttribute key="process_factory_id" value="org.eclipse.ant.ui.remoteAntProcessFactory"/>
 </launchConfiguration>
