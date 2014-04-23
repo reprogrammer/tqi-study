@@ -1,0 +1,12 @@
+[submodule "deps/julia-releases"]
+	path = deps/julia-releases
+	url = https://reprogrammer@bitbucket.org/reprogrammer/julia-releases.git
+[submodule "deps/checker-framework-releases"]
+	path = deps/checker-framework-releases
+	url = https://github.com/reprogrammer/checker-framework-releases.git
+[submodule "deps/jsr308-langtools-releases"]
+	path = deps/jsr308-langtools-releases
+	url = https://github.com/reprogrammer/jsr308-langtools-releases.git
+[submodule "deps/annotation-file-utilities-releases"]
+	path = deps/annotation-file-utilities-releases
+	url = https://github.com/reprogrammer/annotation-file-utilities-releases.git
