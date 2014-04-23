@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="jolden-mst" default="main" basedir=".">
+	<property file="build.properties" />
 	<property name="original.deps" value="../deps" />
 	<property name="junit.jar" value="${junit_jar}" />
 
