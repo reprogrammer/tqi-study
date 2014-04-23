@@ -7,3 +7,6 @@
 [submodule "deps/annotation-file-utilities-releases"]
 	path = deps/annotation-file-utilities-releases
 	url = https://github.com/reprogrammer/annotation-file-utilities-releases.git
+[submodule "deps/julia-releases"]
+	path = deps/julia-releases
+	url = https://bitbucket.org/reprogrammer/julia-releases.git
