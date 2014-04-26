@@ -28,7 +28,7 @@ public class BHTest {
       Body b = (Body) e.nextElement();
       sb.append(b.pos + ",");
     }
-    assertEquals("-1 -1 -1 ,2 0 0 ,0 1 2 ,1 -1 -1 ,-1 1 0 ,", sb.toString());
+    assertEquals("-1 -1 0 ,2 0 0 ,0 1 2 ,1 -1 -1 ,-1 1 0 ,", sb.toString());
   }
 
 }

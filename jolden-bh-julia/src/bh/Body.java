@@ -160,53 +160,35 @@ public final class Body extends Node {
     return mass;
   }
 
+  // a local class that implements the enumerator
+  class Enumerate implements Enumeration {
+    private Body current;
+
+    public Enumerate() {
+      this.current = Body.this;
+    }
+
+    public boolean hasMoreElements() {
+      return (current != null);
+    }
+
+    public Object nextElement() {
+      Object retval = current;
+      current = current.next;
+      return retval;
+    }
+  }
+  
   /**
    * Return an enumeration of the bodies
    * 
    * @return an enumeration of the bodies
    **/
   public final Enumeration elements() {
-    // a local class that implements the enumerator
-    class Enumerate implements Enumeration {
-      private Body current;
-
-      public Enumerate() {
-        this.current = Body.this;
-      }
-
-      public boolean hasMoreElements() {
-        return (current != null);
-      }
-
-      public Object nextElement() {
-        Object retval = current;
-        current = current.next;
-        return retval;
-      }
-    }
     return new Enumerate();
   }
 
   public final Enumeration elementsRev() {
-    // a local class that implements the enumerator
-    class Enumerate implements Enumeration {
-      private Body current;
-
-      public Enumerate() {
-        this.current = Body.this;
-      }
-
-      public boolean hasMoreElements() {
-        return (current != null);
-      }
-
-      public Object nextElement() {
-        Object retval = current;
-        current = current.procNext;
-        return retval;
-      }
-    }
-
     return new Enumerate();
   }
 
