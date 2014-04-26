@@ -1,4 +1,5 @@
 package mst;
+
 public class Hashtable {
   protected HashEntry array[];
   protected int size;

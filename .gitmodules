@@ -10,3 +10,6 @@
 [submodule "deps/julia-releases"]
 	path = deps/julia-releases
 	url = https://bitbucket.org/reprogrammer/julia-releases.git
+[submodule "deps/google-styleguide"]
+	path = deps/google-styleguide
+	url = https://github.com/reprogrammer/google-styleguide.git

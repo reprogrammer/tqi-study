@@ -1,4 +1,5 @@
 package mst;
+
 /**
  * A class that represents a graph data structure.
  **/

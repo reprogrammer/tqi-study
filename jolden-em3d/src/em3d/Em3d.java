@@ -1,5 +1,4 @@
 package em3d;
-import java.io.*;
 
 /**
  * Java implementation of the <tt>em3d</tt> Olden benchmark. This Olden benchmark models the
