@@ -186,7 +186,7 @@ public final class Node {
    * @return the value of the node.
    **/
   public String toString() {
-    return "value " + value + ", from_count " + fromCount;
+    return "value " + Math.round(value) + ", from_count " + fromCount;
   }
 
 }
