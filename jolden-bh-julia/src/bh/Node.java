@@ -29,10 +29,6 @@ public abstract class Node {
 
   abstract Node loadTree(Body p, MathVector xpic, int l, Tree root);
 
-  abstract double hackcofm();
-
-  abstract HG walkSubTree(double dsq, HG hg);
-
   public static final int oldSubindex(MathVector ic, int l) {
     int i = 0;
     for (int k = 0; k < MathVector.NDIM; k++) {

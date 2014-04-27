@@ -147,17 +147,7 @@ public class Tree {
   public void stepSystem(int nstep) {
     // free the tree
     root = null;
-
     makeTree(nstep);
-
-    // compute the gravity for all the particles
-    for (Enumeration e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
-      b.hackGravity(rsize, root);
-    }
-
-    vp(bodyTabRev, nstep);
-
   }
 
   /**
@@ -178,7 +168,6 @@ public class Tree {
         }
       }
     }
-    root.hackcofm();
   }
 
   /**
@@ -210,33 +199,5 @@ public class Tree {
       return null;
     }
     return xp;
-  }
-
-  static final private void vp(Body p, int nstep) {
-    MathVector dacc = new MathVector();
-    MathVector dvel = new MathVector();
-    double dthf = 0.5 * BH.DTIME;
-
-    for (Enumeration e = p.elementsRev(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
-      MathVector acc1 = (MathVector) b.newAcc.clone();
-      if (nstep > 0) {
-        dacc.subtraction(acc1, b.acc);
-        dvel.multScalar(dacc, dthf);
-        dvel.addition(b.vel);
-        b.vel = (MathVector) dvel.clone();
-      }
-      b.acc = (MathVector) acc1.clone();
-      dvel.multScalar(b.acc, dthf);
-
-      MathVector vel1 = (MathVector) b.vel.clone();
-      vel1.addition(dvel);
-      MathVector dpos = (MathVector) vel1.clone();
-      dpos.multScalar(BH.DTIME);
-      dpos.addition(b.pos);
-      b.pos = (MathVector) dpos.clone();
-      vel1.addition(dvel);
-      b.vel = (MathVector) vel1.clone();
-    }
   }
 }

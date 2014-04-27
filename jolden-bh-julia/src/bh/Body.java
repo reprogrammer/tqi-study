@@ -219,27 +219,6 @@ public final class Body extends Node {
   }
 
   /**
-   * Evaluate gravitational field on the body. The original olden version calls a routine named
-   * "walkscan", but we use the same name that is in the Barnes code.
-   **/
-  public final void hackGravity(double rsize, Node root) {
-    MathVector pos0 = (MathVector) pos.clone();
-
-    HG hg = new HG(this, pos);
-    hg = root.walkSubTree(rsize * rsize, hg);
-    phi = hg.phi0;
-    newAcc = hg.acc0;
-  }
-
-  /**
-   * Recursively walk the tree to do hackwalk calculation
-   **/
-  public final HG walkSubTree(double dsq, HG hg) {
-    if (this != hg.pskip) hg = gravSub(hg);
-    return hg;
-  }
-
-  /**
    * Return a string represenation of a body.
    * 
    * @return a string represenation of a body.

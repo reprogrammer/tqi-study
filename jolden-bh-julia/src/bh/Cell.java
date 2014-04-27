@@ -39,60 +39,6 @@ public final class Cell extends Node {
   }
 
   /**
-   * Descend tree finding center of mass coordinates
-   * 
-   * @return the mass of this node
-   **/
-  public final double hackcofm() {
-    double mq = 0.0;
-    MathVector tmpPos = new MathVector();
-    MathVector tmpv = new MathVector();
-    for (int i = 0; i < NSUB; i++) {
-      Node r = subp[i];
-      if (r != null) {
-        double mr = r.hackcofm();
-        mq = mr + mq;
-        tmpv.multScalar(r.pos, mr);
-        tmpPos.addition(tmpv);
-      }
-    }
-    mass = mq;
-    pos = tmpPos;
-    pos.divScalar(mass);
-
-    return mq;
-  }
-
-  /**
-   * Recursively walk the tree to do hackwalk calculation
-   **/
-  public final HG walkSubTree(double dsq, HG hg) {
-    if (subdivp(dsq, hg)) {
-      for (int k = 0; k < Cell.NSUB; k++) {
-        Node r = subp[k];
-        if (r != null) hg = r.walkSubTree(dsq / 4.0, hg);
-      }
-    } else {
-      hg = gravSub(hg);
-    }
-    return hg;
-  }
-
-  /**
-   * Decide if the cell is too close to accept as a single term.
-   * 
-   * @return true if the cell is too close.
-   **/
-  public final boolean subdivp(double dsq, HG hg) {
-    MathVector dr = new MathVector();
-    dr.subtraction(pos, hg.pos0);
-    double drsq = dr.dotProduct();
-
-    // in the original olden version drsp is multiplied by 1.0
-    return (drsq < dsq);
-  }
-
-  /**
    * Return a string represenation of a cell.
    * 
    * @return a string represenation of a cell.
