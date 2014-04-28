@@ -240,9 +240,9 @@ public final class Body extends Node {
   }
 
   /**
-   * Return a string represenation of a body.
+   * Return a string representation of a body.
    * 
-   * @return a string represenation of a body.
+   * @return a string representation of a body.
    **/
   public String toString() {
     return "Body " + super.toString();

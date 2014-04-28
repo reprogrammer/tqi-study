@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * A Java implementation of the <tt>bh</tt> Olden benchmark. The Olden benchmark implements the
- * Barnes-Hut benchmark that is decribed in :
+ * Barnes-Hut benchmark that is described in :
  * <p>
  * <cite> J. Barnes and P. Hut, "A hierarchical o(NlogN) force-calculation algorithm", Nature,
  * 324:446-449, Dec. 1986 </cite>
@@ -82,7 +82,7 @@ public class BH {
   }
 
   /**
-   * Random number generator used by the orignal BH benchmark.
+   * Random number generator used by the original BH benchmark.
    * 
    * @param seed the seed to the generator
    * @return a random number

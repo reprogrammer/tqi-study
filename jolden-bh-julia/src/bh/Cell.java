@@ -93,9 +93,9 @@ public final class Cell extends Node {
   }
 
   /**
-   * Return a string represenation of a cell.
+   * Return a string representation of a cell.
    * 
-   * @return a string represenation of a cell.
+   * @return a string representation of a cell.
    **/
   public String toString() {
     return "Cell " + super.toString();
