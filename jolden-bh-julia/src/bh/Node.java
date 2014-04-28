@@ -47,24 +47,6 @@ public abstract class Node {
   }
 
   /**
-   * Compute a single body-body or body-cell interaction
-   **/
-  public final HG gravSub(HG hg) {
-    MathVector dr = new MathVector();
-    dr.subtraction(pos, hg.pos0);
-
-    double drsq = dr.dotProduct() + (EPS * EPS);
-    double drabs = Math.sqrt(drsq);
-
-    double phii = mass / drabs;
-    hg.phi0 -= phii;
-    double mor3 = phii / drsq;
-    dr.multScalar(mor3);
-    hg.acc0.addition(dr);
-    return hg;
-  }
-
-  /**
    * A class which is used to compute and save information during the gravity computation phse.
    **/
   protected class HG {
