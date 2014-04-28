@@ -63,7 +63,7 @@ public class MST {
     MyVertexList = tmp;
     numvert--;
 
-    // Annonunce insertion and find next one
+    // Announce insertion and find next one
     while (numvert != 0) {
       // System.out.println("numvert= " +numvert);
       BlueReturn br = doAllBlueRule(inserted);
