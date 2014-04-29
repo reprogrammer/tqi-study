@@ -30,7 +30,7 @@ public class MathVector implements Cloneable {
    * 
    * @return a clone of the math vector
    **/
-  public Object clone() {
+  public Object cloned() {
     try {
       MathVector v = (MathVector) super.clone();
       v.data = new double[NDIM];
@@ -215,7 +215,7 @@ public class MathVector implements Cloneable {
   /**
    * Return the string representation of the vector
    **/
-  public String toString() {
+  public String asString() {
     StringBuffer s = new StringBuffer();
     for (int i = 0; i < NDIM; i++) {
       s.append(Math.round(data[i]) + " ");

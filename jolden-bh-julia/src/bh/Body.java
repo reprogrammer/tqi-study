@@ -222,9 +222,8 @@ public final class Body extends Node {
    * "walkscan", but we use the same name that is in the Barnes code.
    **/
   public final void hackGravity(double rsize, Node root) {
-    MathVector pos0 = (MathVector) pos.clone();
-
-    HG hg = new HG(this, pos);
+    MathVector pos0 = (MathVector) pos.cloned();
+    HG hg = new HG(this, pos0);
     hg = root.walkSubTree(rsize * rsize, hg);
     phi = hg.phi0;
     newAcc = hg.acc0;
@@ -243,8 +242,8 @@ public final class Body extends Node {
    * 
    * @return a string representation of a body.
    **/
-  public String toString() {
-    return "Body " + super.toString();
+  public String asString() {
+    return "Body " + super.asString();
   }
 
 }

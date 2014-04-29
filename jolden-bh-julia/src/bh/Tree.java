@@ -219,24 +219,24 @@ public class Tree {
 
     for (Enumerator e = p.elementsRev(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
-      MathVector acc1 = (MathVector) b.newAcc.clone();
+      MathVector acc1 = (MathVector) b.newAcc.cloned();
       if (nstep > 0) {
         dacc.subtraction(acc1, b.acc);
         dvel.multScalar(dacc, dthf);
         dvel.addition(b.vel);
-        b.vel = (MathVector) dvel.clone();
+        b.vel = (MathVector) dvel.cloned();
       }
-      b.acc = (MathVector) acc1.clone();
+      b.acc = (MathVector) acc1.cloned();
       dvel.multScalar(b.acc, dthf);
 
-      MathVector vel1 = (MathVector) b.vel.clone();
+      MathVector vel1 = (MathVector) b.vel.cloned();
       vel1.addition(dvel);
-      MathVector dpos = (MathVector) vel1.clone();
+      MathVector dpos = (MathVector) vel1.cloned();
       dpos.multScalar(BH.DTIME);
       dpos.addition(b.pos);
-      b.pos = (MathVector) dpos.clone();
+      b.pos = (MathVector) dpos.cloned();
       vel1.addition(dvel);
-      b.vel = (MathVector) vel1.clone();
+      b.vel = (MathVector) vel1.cloned();
     }
   }
 }

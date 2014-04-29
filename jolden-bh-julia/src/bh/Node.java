@@ -46,7 +46,7 @@ public abstract class Node {
    * 
    * @return a string representation of a node.
    **/
-  public String toString() {
+  public String asString() {
     return mass + " : " + pos;
   }
 
@@ -97,7 +97,7 @@ public abstract class Node {
      **/
     HG(Body b, MathVector p) {
       pskip = b;
-      pos0 = (MathVector) p.clone();
+      pos0 = (MathVector) p.cloned();
       phi0 = 0.0;
       acc0 = new MathVector();
     }
