@@ -70,7 +70,7 @@ public class BH {
       int j = 0;
       for (Enumerator e = root.bodies(); e.hasMoreElements();) {
         Body b = (Body) e.nextElement();
-        System.out.println("body " + j++ + " -- " + b.pos.asString());
+        if (b != null) System.out.println("body " + j++ + " -- " + b.pos.asString());
       }
     }
 

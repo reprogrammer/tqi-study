@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A Java implementation of the <tt>mst</tt> Olden benchmark. The Olden benchmark computes the
  * minimum spanning tree of a graph using Bentley's algorithm.
@@ -75,7 +78,7 @@ public class MST {
     return cost;
   }
 
-  private static BlueReturn BlueRule(Vertex inserted, Vertex vlist) {
+  private static BlueReturn BlueRule(Vertex inserted, @Nullable Vertex vlist) {
     BlueReturn retval = new BlueReturn();
 
     if (vlist == null) {
@@ -124,7 +127,7 @@ public class MST {
     return retval;
   }
 
-  private static Vertex MyVertexList = null;
+  private static @Nullable Vertex MyVertexList = null;
 
   private static BlueReturn doAllBlueRule(Vertex inserted) {
     if (inserted == MyVertexList) MyVertexList = MyVertexList.next();
@@ -178,13 +181,14 @@ public class MST {
  * Not really sure what this is for?
  **/
 class BlueReturn {
-  private Vertex vert;
+  private @Nullable Vertex vert;
   private int dist;
 
-  public Vertex vert() {
+  public @Nullable Vertex vert() {
     return vert;
   }
 
+  @EnsuresNonNull({"vert"})
   public void setVert(Vertex v) {
     vert = v;
   }

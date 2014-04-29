@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import bh.Body.Enumerator;
 
 /**
@@ -12,15 +14,16 @@ public class Tree {
   /**
    * A reference to the root node.
    **/
+  @Nullable
   Node root;
   /**
    * The complete list of bodies that have been created.
    **/
-  private Body bodyTab;
+  private @Nullable Body bodyTab;
   /**
    * The complete list of bodies that have been created - in reverse.
    **/
-  private Body bodyTabRev;
+  private @Nullable Body bodyTabRev;
 
   /**
    * Construct the root of the data structure that represents the N-bodies.
@@ -42,7 +45,8 @@ public class Tree {
    * 
    * @return an enumeration of the bodies.
    **/
-  public final Enumerator bodies() {
+  public final @Nullable Enumerator bodies() {
+    if (bodyTab == null) return null;
     return bodyTab.elements();
   }
 
@@ -51,7 +55,8 @@ public class Tree {
    * 
    * @return an enumeration of the bodies - in reverse.
    **/
-  public final Enumerator bodiesRev() {
+  public final @Nullable Enumerator bodiesRev() {
+    if (bodyTabRev == null) return null;
     return bodyTabRev.elementsRev();
   }
 
@@ -127,8 +132,9 @@ public class Tree {
 
     prev = null;
 
-    for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
+    if (bodyTab != null) for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
+      if (b == null) continue;
       b.pos.subtraction(cmr);
       b.vel.subtraction(cmv);
       b.setProcNext(prev);
@@ -151,9 +157,9 @@ public class Tree {
     makeTree(nstep);
 
     // compute the gravity for all the particles
-    for (Enumerator e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
+    if (bodyTabRev != null) for (Enumerator e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
-      b.hackGravity(rsize, root);
+      if (b != null) b.hackGravity(rsize, root);
     }
 
     vp(bodyTabRev, nstep);
@@ -166,7 +172,7 @@ public class Tree {
    * @param nsteps the current time step
    **/
   private void makeTree(int nstep) {
-    for (Enumerator e = bodiesRev(); e.hasMoreElements();) {
+    for (Enumerator e = bodiesRev(); e != null && e.hasMoreElements();) {
       Body q = (Body) e.nextElement();
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
@@ -186,7 +192,7 @@ public class Tree {
    * 
    * @return the coordinates or null if rp is out of bounds
    **/
-  public final MathVector intcoord(MathVector vp) {
+  public final @Nullable MathVector intcoord(MathVector vp) {
     MathVector xp = new MathVector();
 
     double xsc = (vp.value(0) - rmin.value(0)) / rsize;
@@ -212,13 +218,14 @@ public class Tree {
     return xp;
   }
 
-  static final private void vp(Body p, int nstep) {
+  static final private void vp(@Nullable Body p, int nstep) {
     MathVector dacc = new MathVector();
     MathVector dvel = new MathVector();
     double dthf = 0.5 * BH.DTIME;
 
     for (Enumerator e = p.elementsRev(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
+      if (b == null) continue;
       MathVector acc1 = (MathVector) b.newAcc.cloned();
       if (nstep > 0) {
         dacc.subtraction(acc1, b.acc);

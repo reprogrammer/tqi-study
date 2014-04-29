@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.nullness.qual.Raw;
+
 /**
  * A class that represents a graph data structure.
  **/
@@ -10,9 +13,9 @@ public class Graph {
   private Vertex[] nodes;
 
   // parameters for the random number generator
-  private final static int CONST_m1 = 10000;
-  private final static int CONST_b = 31415821;
-  private final static int RANGE = 2048;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int CONST_m1 = 10000;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int CONST_b = 31415821;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int RANGE = 2048;
 
   /**
    * Create a graph.
@@ -35,7 +38,8 @@ public class Graph {
    * 
    * @param numvert the size of the graph
    **/
-  public void createGraph(int numvert) {
+  @SuppressWarnings({"rawness", "nullness"})
+  public void createGraph(@Raw Graph this, int numvert) {
     nodes = new Vertex[numvert];
     Vertex v = null;
     // the original C code creates them in reverse order
@@ -62,7 +66,7 @@ public class Graph {
    * 
    * @param numvert the number of nodes in the graph
    **/
-  private void addEdges(int numvert) {
+  private void addEdges(@UnderInitialization(Graph.class) Graph this, int numvert) {
     int count1 = 0;
 
     for (Vertex tmp = nodes[0]; tmp != null; tmp = tmp.next()) {
@@ -81,7 +85,7 @@ public class Graph {
    * Compute the distance between two edges. A random number generator is used to compute the
    * distance.
    **/
-  private int computeDist(int i, int j, int numvert) {
+  private int computeDist(@UnderInitialization(Graph.class) Graph this, int i, int j, int numvert) {
     int less, gt;
     if (i < j) {
       less = i;
