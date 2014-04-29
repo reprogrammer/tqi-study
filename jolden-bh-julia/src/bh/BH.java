@@ -1,8 +1,9 @@
 package bh;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+
+import bh.Body.Enumerator;
 
 /**
  * A Java implementation of the <tt>bh</tt> Olden benchmark. The Olden benchmark implements the
@@ -26,7 +27,7 @@ public class BH {
   private static int nsteps = 10;
 
   /**
-   * Should we print information messsages
+   * Should we print information messages
    **/
   private static boolean printMsgs = false;
   /**
@@ -67,7 +68,7 @@ public class BH {
 
     if (printResults) {
       int j = 0;
-      for (Enumeration e = root.bodies(); e.hasMoreElements();) {
+      for (Enumerator e = root.bodies(); e.hasMoreElements();) {
         Body b = (Body) e.nextElement();
         System.out.println("body " + j++ + " -- " + b.pos);
       }

@@ -1,10 +1,10 @@
 package bh;
 
-import static org.junit.Assert.*;
-
-import java.util.Enumeration;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import bh.Body.Enumerator;
 
 public class BHTest {
 
@@ -24,7 +24,7 @@ public class BHTest {
       tnow += DTIME;
     }
     StringBuilder sb = new StringBuilder();
-    for (Enumeration e = root.bodies(); e.hasMoreElements();) {
+    for (Enumerator e = root.bodies(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
       sb.append(b.pos + ",");
     }

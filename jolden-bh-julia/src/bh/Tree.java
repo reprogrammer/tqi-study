@@ -1,6 +1,6 @@
 package bh;
 
-import java.util.Enumeration;
+import bh.Body.Enumerator;
 
 /**
  * A class that represents the root of the data structure used to represent the N-bodies in the
@@ -42,7 +42,7 @@ public class Tree {
    * 
    * @return an enumeration of the bodies.
    **/
-  public final Enumeration bodies() {
+  public final Enumerator bodies() {
     return bodyTab.elements();
   }
 
@@ -51,7 +51,7 @@ public class Tree {
    * 
    * @return an enumeration of the bodies - in reverse.
    **/
-  public final Enumeration bodiesRev() {
+  public final Enumerator bodiesRev() {
     return bodyTabRev.elementsRev();
   }
 
@@ -127,7 +127,7 @@ public class Tree {
 
     prev = null;
 
-    for (Enumeration e = bodyTab.elements(); e.hasMoreElements();) {
+    for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
       b.pos.subtraction(cmr);
       b.vel.subtraction(cmv);
@@ -151,7 +151,7 @@ public class Tree {
     makeTree(nstep);
 
     // compute the gravity for all the particles
-    for (Enumeration e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
+    for (Enumerator e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
       b.hackGravity(rsize, root);
     }
@@ -166,7 +166,7 @@ public class Tree {
    * @param nsteps the current time step
    **/
   private void makeTree(int nstep) {
-    for (Enumeration e = bodiesRev(); e.hasMoreElements();) {
+    for (Enumerator e = bodiesRev(); e.hasMoreElements();) {
       Body q = (Body) e.nextElement();
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
@@ -217,7 +217,7 @@ public class Tree {
     MathVector dvel = new MathVector();
     double dthf = 0.5 * BH.DTIME;
 
-    for (Enumeration e = p.elementsRev(); e.hasMoreElements();) {
+    for (Enumerator e = p.elementsRev(); e.hasMoreElements();) {
       Body b = (Body) e.nextElement();
       MathVector acc1 = (MathVector) b.newAcc.clone();
       if (nstep > 0) {

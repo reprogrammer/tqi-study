@@ -1,6 +1,5 @@
 package bh;
 
-import java.util.Enumeration;
 
 /**
  * A class used to representing particles in the N-body simulation.
@@ -161,10 +160,10 @@ public final class Body extends Node {
   }
 
   // a local class that implements the enumerator
-  class Enumerate implements Enumeration {
+  class Enumerator {
     private Body current;
 
-    public Enumerate() {
+    public Enumerator() {
       this.current = Body.this;
     }
 
@@ -178,18 +177,18 @@ public final class Body extends Node {
       return retval;
     }
   }
-  
+
   /**
    * Return an enumeration of the bodies
    * 
    * @return an enumeration of the bodies
    **/
-  public final Enumeration elements() {
-    return new Enumerate();
+  public final Enumerator elements() {
+    return new Enumerator();
   }
 
-  public final Enumeration elementsRev() {
-    return new Enumerate();
+  public final Enumerator elementsRev() {
+    return new Enumerator();
   }
 
   /**
