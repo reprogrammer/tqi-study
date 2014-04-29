@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class used to represent internal nodes in the tree
  **/
@@ -10,8 +12,8 @@ public final class Cell extends Node {
   /**
    * The children of this cell node. Each entry may contain either another cell or a body.
    **/
-  Node[] subp;
-  Cell next;
+  @Nullable Node[] subp;
+  @Nullable Cell next;
 
   public Cell() {
     subp = new Node[NSUB];
@@ -27,7 +29,7 @@ public final class Cell extends Node {
    * @param tree the root of the tree
    * @return the subtree with the new body inserted
    **/
-  public final Node loadTree(Body p, MathVector xpic, int l, Tree tree) {
+  public final Node loadTree(Body p, @Nullable MathVector xpic, int l, Tree tree) {
     // move down one level
     int si = oldSubindex(xpic, l);
     Node rt = subp[si];

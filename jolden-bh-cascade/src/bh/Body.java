@@ -1,5 +1,8 @@
 package bh;
 
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 
 /**
  * A class used to representing particles in the N-body simulation.
@@ -10,8 +13,8 @@ public final class Body extends Node {
   MathVector newAcc;
   double phi;
 
-  private Body next;
-  private Body procNext;
+  private @Nullable Body next;
+  private @Nullable Body procNext;
 
   /**
    * Create an empty body.
@@ -30,7 +33,7 @@ public final class Body extends Node {
    * 
    * @param n the body
    **/
-  public final void setNext(Body n) {
+  public final void setNext(@Nullable Body n) {
     next = n;
   }
 
@@ -39,7 +42,7 @@ public final class Body extends Node {
    * 
    * @return the next body
    **/
-  public final Body getNext() {
+  public final @Nullable Body getNext() {
     return next;
   }
 
@@ -48,7 +51,7 @@ public final class Body extends Node {
    * 
    * @param n the body
    **/
-  public final void setProcNext(Body n) {
+  public final void setProcNext(@Nullable Body n) {
     procNext = n;
   }
 
@@ -57,7 +60,7 @@ public final class Body extends Node {
    * 
    * @return the next body
    **/
-  public final Body getProcNext() {
+  public final @Nullable Body getProcNext() {
     return procNext;
   }
 
@@ -133,7 +136,7 @@ public final class Body extends Node {
    * @param tree the root of the data structure
    * @return the subtree with the new body inserted
    **/
-  public final Node loadTree(Body p, MathVector xpic, int l, Tree tree) {
+  public final Node loadTree(Body p, @Nullable MathVector xpic, int l, Tree tree) {
     // create a Cell
     Cell retval = new Cell();
     int si = subindex(tree, l);
@@ -161,7 +164,7 @@ public final class Body extends Node {
 
   // a local class that implements the enumerator
   class Enumerator {
-    private Body current;
+    private @Nullable Body current;
 
     public Enumerator() {
       this.current = Body.this;
@@ -171,7 +174,7 @@ public final class Body extends Node {
       return (current != null);
     }
 
-    public Object nextElement() {
+    public @Nullable Object nextElement() {
       Object retval = current;
       current = current.next;
       return retval;
@@ -221,7 +224,7 @@ public final class Body extends Node {
    * Evaluate gravitational field on the body. The original olden version calls a routine named
    * "walkscan", but we use the same name that is in the Barnes code.
    **/
-  public final void hackGravity(double rsize, Node root) {
+  public final void hackGravity(double rsize, @Nullable Node root) {
     MathVector pos0 = (MathVector) pos.cloned();
     HG hg = new HG(this, pos0);
     hg = root.walkSubTree(rsize * rsize, hg);

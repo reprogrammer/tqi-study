@@ -1,4 +1,5 @@
 package mst;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A Java implementation of the <tt>mst</tt> Olden benchmark. The Olden benchmark computes the
@@ -59,6 +60,7 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
+    assert inserted != null : "@AssumeAssertion(nullness)";
     Vertex tmp = inserted.next();
     MyVertexList = tmp;
     numvert--;
@@ -75,7 +77,7 @@ public class MST {
     return cost;
   }
 
-  private static BlueReturn BlueRule(Vertex inserted, Vertex vlist) {
+  private static BlueReturn BlueRule(@Nullable Vertex inserted, @Nullable Vertex vlist) {
     BlueReturn retval = new BlueReturn();
 
     if (vlist == null) {
@@ -124,9 +126,10 @@ public class MST {
     return retval;
   }
 
-  private static Vertex MyVertexList = null;
+  private static @Nullable Vertex MyVertexList = null;
 
-  private static BlueReturn doAllBlueRule(Vertex inserted) {
+  private static BlueReturn doAllBlueRule(@Nullable Vertex inserted) {
+	assert inserted != null : "@AssumeAssertion(nullness)";
     if (inserted == MyVertexList) MyVertexList = MyVertexList.next();
     return BlueRule(inserted, MyVertexList);
   }
@@ -178,10 +181,10 @@ public class MST {
  * Not really sure what this is for?
  **/
 class BlueReturn {
-  private Vertex vert;
+  private @Nullable Vertex vert;
   private int dist;
 
-  public Vertex vert() {
+  public @Nullable Vertex vert() {
     return vert;
   }
 
