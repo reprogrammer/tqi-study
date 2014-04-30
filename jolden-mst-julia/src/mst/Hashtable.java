@@ -7,8 +7,6 @@ public class Hashtable {
   public Hashtable(int sz) {
     size = sz;
     array = new HashEntry[size];
-    // for (int i=0; i<size; i++)
-    // array[i] = null;
   }
 
   private int hashMap(Object key) {
