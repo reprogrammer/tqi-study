@@ -3,8 +3,6 @@ package bh;
 import java.util.ArrayList;
 import java.util.List;
 
-import bh.Body.Enumerator;
-
 /**
  * A Java implementation of the <tt>bh</tt> Olden benchmark. The Olden benchmark implements the
  * Barnes-Hut benchmark that is described in :
@@ -69,7 +67,7 @@ public class BH {
     if (printResults) {
       int j = 0;
       for (Enumerator e = root.bodies(); e.hasMoreElements();) {
-        Body b = (Body) e.nextElement();
+        Body b = e.nextElement();
         System.out.println("body " + j++ + " -- " + b.pos.asString());
       }
     }
@@ -90,7 +88,6 @@ public class BH {
    **/
   public static final double myRand(double seed) {
     double t = 16807.0 * seed + 1;
-
     seed = t - (2147483647.0 * Math.floor(t / 2147483647.0));
     return seed;
   }

@@ -1,6 +1,5 @@
 package bh;
 
-
 /**
  * A class used to representing particles in the N-body simulation.
  **/
@@ -10,7 +9,7 @@ public final class Body extends Node {
   MathVector newAcc;
   double phi;
 
-  private Body next;
+  Body next;
   private Body procNext;
 
   /**
@@ -124,7 +123,7 @@ public final class Body extends Node {
   }
 
   /**
-   * Des end Tree and insert particle. We're at a body so we need to create a cell and attach this
+   * Descend Tree and insert particle. We're at a body so we need to create a cell and attach this
    * body to the cell.
    * 
    * @param p the body to insert
@@ -151,44 +150,12 @@ public final class Body extends Node {
   }
 
   /**
-   * Descend tree finding center of mass coordinates
-   * 
-   * @return the mass of this node
-   **/
-  public final double hackcofm() {
-    return mass;
-  }
-
-  // a local class that implements the enumerator
-  class Enumerator {
-    private Body current;
-
-    public Enumerator() {
-      this.current = Body.this;
-    }
-
-    public boolean hasMoreElements() {
-      return (current != null);
-    }
-
-    public Object nextElement() {
-      Object retval = current;
-      current = current.next;
-      return retval;
-    }
-  }
-
-  /**
    * Return an enumeration of the bodies
    * 
    * @return an enumeration of the bodies
    **/
   public final Enumerator elements() {
-    return new Enumerator();
-  }
-
-  public final Enumerator elementsRev() {
-    return new Enumerator();
+    return new Enumerator(Body.this);
   }
 
   /**
@@ -215,26 +182,6 @@ public final class Body extends Node {
       }
     }
     return i;
-  }
-
-  /**
-   * Evaluate gravitational field on the body. The original olden version calls a routine named
-   * "walkscan", but we use the same name that is in the Barnes code.
-   **/
-  public final void hackGravity(double rsize, Node root) {
-    MathVector pos0 = (MathVector) pos.cloned();
-    HG hg = new HG(this, pos0);
-    hg = root.walkSubTree(rsize * rsize, hg);
-    phi = hg.phi0;
-    newAcc = hg.acc0;
-  }
-
-  /**
-   * Recursively walk the tree to do hackwalk calculation
-   **/
-  public final HG walkSubTree(double dsq, HG hg) {
-    if (this != hg.pskip) hg = gravSub(hg);
-    return hg;
   }
 
   /**

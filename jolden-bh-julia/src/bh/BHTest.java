@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import bh.Body.Enumerator;
-
 public class BHTest {
 
   static double DTIME = 0.0125;
@@ -25,7 +23,7 @@ public class BHTest {
     }
     StringBuilder sb = new StringBuilder();
     for (Enumerator e = root.bodies(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
+      Body b = e.nextElement();
       sb.append(b.pos.asString() + ",");
     }
     assertEquals("-1 -1 0 ,2 0 0 ,0 1 2 ,1 -1 -1 ,-1 1 0 ,", sb.toString());

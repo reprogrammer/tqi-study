@@ -1,7 +1,5 @@
 package bh;
 
-import bh.Body.Enumerator;
-
 /**
  * A class that represents the root of the data structure used to represent the N-bodies in the
  * Barnes-Hut algorithm.
@@ -52,11 +50,11 @@ public class Tree {
    * @return an enumeration of the bodies - in reverse.
    **/
   public final Enumerator bodiesRev() {
-    return bodyTabRev.elementsRev();
+    return bodyTabRev.elements();
   }
 
   /**
-   * Create the testdata used in the benchmark.
+   * Create the test data used in the benchmark.
    * 
    * @param nbody the number of bodies to create
    **/
@@ -128,7 +126,7 @@ public class Tree {
     prev = null;
 
     for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
+      Body b = e.nextElement();
       b.pos.subtraction(cmr);
       b.vel.subtraction(cmv);
       b.setProcNext(prev);
@@ -147,17 +145,7 @@ public class Tree {
   public void stepSystem(int nstep) {
     // free the tree
     root = null;
-
     makeTree(nstep);
-
-    // compute the gravity for all the particles
-    for (Enumerator e = bodyTabRev.elementsRev(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
-      b.hackGravity(rsize, root);
-    }
-
-    vp(bodyTabRev, nstep);
-
   }
 
   /**
@@ -167,7 +155,7 @@ public class Tree {
    **/
   private void makeTree(int nstep) {
     for (Enumerator e = bodiesRev(); e.hasMoreElements();) {
-      Body q = (Body) e.nextElement();
+      Body q = e.nextElement();
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
         MathVector xqic = intcoord(q.pos);
@@ -178,13 +166,12 @@ public class Tree {
         }
       }
     }
-    root.hackcofm();
   }
 
   /**
    * Compute integerized coordinates.
    * 
-   * @return the coordinates or null if rp is out of bounds
+   * @return the coordinates or null if vp is out of bounds
    **/
   public final MathVector intcoord(MathVector vp) {
     MathVector xp = new MathVector();
@@ -210,33 +197,5 @@ public class Tree {
       return null;
     }
     return xp;
-  }
-
-  static final private void vp(Body p, int nstep) {
-    MathVector dacc = new MathVector();
-    MathVector dvel = new MathVector();
-    double dthf = 0.5 * BH.DTIME;
-
-    for (Enumerator e = p.elementsRev(); e.hasMoreElements();) {
-      Body b = (Body) e.nextElement();
-      MathVector acc1 = (MathVector) b.newAcc.cloned();
-      if (nstep > 0) {
-        dacc.subtraction(acc1, b.acc);
-        dvel.multScalar(dacc, dthf);
-        dvel.addition(b.vel);
-        b.vel = (MathVector) dvel.cloned();
-      }
-      b.acc = (MathVector) acc1.cloned();
-      dvel.multScalar(b.acc, dthf);
-
-      MathVector vel1 = (MathVector) b.vel.cloned();
-      vel1.addition(dvel);
-      MathVector dpos = (MathVector) vel1.cloned();
-      dpos.multScalar(BH.DTIME);
-      dpos.addition(b.pos);
-      b.pos = (MathVector) dpos.cloned();
-      vel1.addition(dvel);
-      b.vel = (MathVector) vel1.cloned();
-    }
   }
 }

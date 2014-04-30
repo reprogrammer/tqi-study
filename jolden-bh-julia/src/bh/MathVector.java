@@ -2,7 +2,7 @@ package bh;
 
 /**
  * A class representing a three dimensional vector that implements several math operations. To
- * improve speed we implement the vector as an array of doubles rather than use the exising code in
+ * improve speed we implement the vector as an array of doubles rather than use the existing code in
  * the java.util.Vector class.
  **/
 public class MathVector implements Cloneable {
