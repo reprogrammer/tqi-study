@@ -20,8 +20,8 @@ public class Hashtable {
 
     for (ent = array[j]; ent != null && ent.key() != key; ent = ent.next());
 
-    if (ent != null) return ent.entry();
-    return null;
+    return ent.entry();
+    
   }
 
   public void put(Object key, Object value) {

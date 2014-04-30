@@ -1,5 +1,9 @@
 package mst;
 
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents a graph data structure.
  **/
@@ -20,7 +24,7 @@ public class Graph {
    * @param numvert the number of vertices in the graph
    **/
   public Graph(int numvert) {
-    nodes = new Vertex[numvert];
+    @Nullable Vertex[] nodes = new Vertex[numvert];
 
     // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE LOOP BELOW.
     for (int i = 0; i < numvert; ++i) {
@@ -34,6 +38,9 @@ public class Graph {
       Vertex tmp = nodes[i] = new Vertex(v, numvert);
       v = tmp;
     }
+    @SuppressWarnings("nullness")
+    Vertex[] tmp = nodes;
+    this.nodes = tmp;
     addEdges(numvert);
   }
 
@@ -52,7 +59,7 @@ public class Graph {
    * 
    * @param numvert the number of nodes in the graph
    **/
-  private void addEdges(int numvert) {
+  private void addEdges(@UnderInitialization(mst.Graph.class) @NonNull Graph this, int numvert) {
     int count1 = 0;
 
     for (Vertex tmp = nodes[0]; tmp != null; tmp = tmp.next()) {

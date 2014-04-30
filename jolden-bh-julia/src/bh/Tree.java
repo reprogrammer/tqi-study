@@ -1,4 +1,6 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class that represents the root of the data structure used to represent the N-bodies in the
@@ -10,11 +12,12 @@ public class Tree {
   /**
    * A reference to the root node.
    **/
+  @Nullable
   Node root;
   /**
    * The complete list of bodies that have been created.
    **/
-  private Body bodyTab;
+  private @Nullable Body bodyTab;
 
   /**
    * Construct the root of the data structure that represents the N-bodies.
@@ -35,8 +38,8 @@ public class Tree {
    * 
    * @return an enumeration of the bodies.
    **/
-  public final Enumerator bodies() {
-    return bodyTab.elements();
+  public final @Nullable Enumerator bodies() {
+    return bodyTab != null?bodyTab.elements():null;
   }
 
   /**
@@ -104,16 +107,18 @@ public class Tree {
     prev.setNext(null);
     // toss the dummy node at the beginning and set a reference to the first
     // element
-    bodyTab = head.getNext();
+    @SuppressWarnings("nullness")
+    @NonNull Body bodyTabTmp = head.getNext();
 
     cmr.divScalar((double) nbody);
     cmv.divScalar((double) nbody);
 
-    for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
+    for (Enumerator e = bodyTabTmp.elements(); e.hasMoreElements();) {
       Body b = e.nextElement();
       b.pos.subtraction(cmr);
       b.vel.subtraction(cmv);
     }
+    bodyTab = bodyTabTmp;
   }
 
   /**
@@ -133,7 +138,7 @@ public class Tree {
    * @param nsteps the current time step
    **/
   private void makeTree(int nstep) {
-    for (Enumerator e = bodies(); e.hasMoreElements();) {
+    for (Enumerator e = bodies(); e!=null && e.hasMoreElements();) {
       Body q = e.nextElement();
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
@@ -152,7 +157,7 @@ public class Tree {
    * 
    * @return the coordinates or null if vp is out of bounds
    **/
-  public final MathVector intcoord(MathVector vp) {
+  public final @Nullable MathVector intcoord(MathVector vp) {
     MathVector xp = new MathVector();
 
     double xsc = (vp.value(0) - rmin.value(0)) / rsize;

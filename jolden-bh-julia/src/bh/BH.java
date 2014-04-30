@@ -66,7 +66,7 @@ public class BH {
 
     if (printResults) {
       int j = 0;
-      for (Enumerator e = root.bodies(); e.hasMoreElements();) {
+      for (Enumerator e = root.bodies(); e!=null && e.hasMoreElements();) {
         Body b = e.nextElement();
         System.out.println("body " + j++ + " -- " + b.pos.asString());
       }
