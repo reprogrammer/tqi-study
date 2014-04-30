@@ -81,7 +81,7 @@ public class Graph {
    * Compute the distance between two edges. A random number generator is used to compute the
    * distance.
    **/
-  private int computeDist(int i, int j, int numvert) {
+  private static int computeDist(int i, int j, int numvert) {
     int less, gt;
     if (i < j) {
       less = i;
