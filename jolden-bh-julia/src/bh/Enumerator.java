@@ -1,6 +1,6 @@
 /**
  * 
- * PLEASE DO NOT CHANGE THIS FILE.
+ * TO PARTICIPANTS: PLEASE DO NOT CHANGE THIS FILE.
  *
  */
 package bh;
@@ -32,6 +32,6 @@ class Enumerator {
 }
 /**
  * 
- * PLEASE DO NOT CHANGE THIS FILE.
+ * TO PARTICIPANTS: PLEASE DO NOT CHANGE THIS FILE.
  *
  */
