@@ -59,14 +59,13 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
-    Vertex tmp = inserted.next();
-    Vertex myVertexList = tmp;
+    Vertex myVertexList = inserted.next();
     numvert--;
 
     // Announce insertion and find next one
     while (numvert != 0) {
       if (inserted == myVertexList) myVertexList = myVertexList.next();
-      BlueReturn br = BlueRule(inserted, myVertexList);
+      BlueReturn br = blueRule(inserted, myVertexList);
       inserted = br.vert();
       int dist = br.dist();
       numvert--;
@@ -75,7 +74,7 @@ public class MST {
     return cost;
   }
 
-  private static BlueReturn BlueRule(Vertex inserted, Vertex vlist) {
+  private static BlueReturn blueRule(Vertex inserted, Vertex vlist) {
     if (vlist == null) {
       return new BlueReturn(vlist, 999999);
     }
