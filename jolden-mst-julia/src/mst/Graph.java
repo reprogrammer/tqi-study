@@ -21,6 +21,10 @@ public class Graph {
    **/
   public Graph(int numvert) {
     nodes = new Vertex[numvert];
+    // PLEASE DO NOT REMOVE OR CHANGE THIS LOOP.
+    for (int i = 0; i < numvert; ++i) {
+      nodes[i] = null;
+    }
     Vertex v = null;
     // the original C code creates them in reverse order
     for (int i = numvert - 1; i >= 0; i--) {
