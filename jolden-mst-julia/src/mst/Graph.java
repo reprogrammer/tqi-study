@@ -31,23 +31,6 @@ public class Graph {
   }
 
   /**
-   * Create a graph. This is just another method for creating the graph data structure.
-   * 
-   * @param numvert the size of the graph
-   **/
-  public void createGraph(int numvert) {
-    nodes = new Vertex[numvert];
-    Vertex v = null;
-    // the original C code creates them in reverse order
-    for (int i = numvert - 1; i >= 0; i--) {
-      Vertex tmp = nodes[i] = new Vertex(v, numvert);
-      v = tmp;
-    }
-
-    addEdges(numvert);
-  }
-
-  /**
    * Return the first node in the graph.
    * 
    * @return the first node in the graph.
