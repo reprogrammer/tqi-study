@@ -1,4 +1,7 @@
 package mst;
+import java.lang.SuppressWarnings;
+
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * A class that represents a graph data structure.
@@ -10,9 +13,9 @@ public class Graph {
   private Vertex[] nodes;
 
   // parameters for the random number generator
-  private final static int CONST_m1 = 10000;
-  private final static int CONST_b = 31415821;
-  private final static int RANGE = 2048;
+  private final static @SuppressWarnings({"rawness","nullness"}) int CONST_m1 = 10000;
+  private final static @SuppressWarnings({"rawness","nullness"}) int CONST_b = 31415821;
+  private final static @SuppressWarnings({"rawness","nullness"}) int RANGE = 2048;
 
   /**
    * Create a graph.
@@ -29,11 +32,15 @@ public class Graph {
     // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE LOOP ABOVE.
 
     Vertex v = null;
+     Vertex [] tempArray = new Vertex[numvert];
     // the original C code creates them in reverse order
     for (int i = numvert - 1; i >= 0; i--) {
-      Vertex tmp = nodes[i] = new Vertex(v, numvert);
+      Vertex tmp = tempArray[i] = new Vertex(v, numvert);
       v = tmp;
     }
+    @SuppressWarnings("nullness")
+    Vertex[] array = tempArray;
+    nodes = array;
     addEdges(numvert);
   }
 
@@ -52,7 +59,8 @@ public class Graph {
    * 
    * @param numvert the number of nodes in the graph
    **/
-  private void addEdges(int numvert) {
+  
+  private void addEdges(@UnderInitialization(Graph.class) Graph this, int numvert) {
     int count1 = 0;
 
     for (Vertex tmp = nodes[0]; tmp != null; tmp = tmp.next()) {

@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents the common fields of a cell or body data structure.
  **/
