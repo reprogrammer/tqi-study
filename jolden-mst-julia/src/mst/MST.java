@@ -65,7 +65,6 @@ public class MST {
 
     // Announce insertion and find next one
     while (numvert != 0) {
-      // System.out.println("numvert= " +numvert);
       BlueReturn br = doAllBlueRule(inserted);
       inserted = br.vert();
       int dist = br.dist();
