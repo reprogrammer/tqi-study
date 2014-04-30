@@ -59,13 +59,15 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
-    Vertex myVertexList = inserted.next();
+    Vertex vlist = inserted.next();
     numvert--;
 
     // Announce insertion and find next one
     while (numvert != 0) {
-      if (inserted == myVertexList) myVertexList = myVertexList.next();
-      BlueReturn br = blueRule(inserted, myVertexList);
+      if (vlist == null) break;
+      if (inserted == vlist) vlist = vlist.next();
+      if (vlist == null) break;
+      BlueReturn br = blueRule(inserted, vlist);
       inserted = br.vert();
       int dist = br.dist();
       numvert--;
