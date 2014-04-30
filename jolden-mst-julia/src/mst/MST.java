@@ -60,12 +60,13 @@ public class MST {
     // Insert first node
     Vertex inserted = graph.firstNode();
     Vertex tmp = inserted.next();
-    MyVertexList = tmp;
+    Vertex myVertexList = tmp;
     numvert--;
 
     // Announce insertion and find next one
     while (numvert != 0) {
-      BlueReturn br = doAllBlueRule(inserted);
+      if (inserted == myVertexList) myVertexList = myVertexList.next();
+      BlueReturn br = BlueRule(inserted, myVertexList);
       inserted = br.vert();
       int dist = br.dist();
       numvert--;
@@ -75,16 +76,12 @@ public class MST {
   }
 
   private static BlueReturn BlueRule(Vertex inserted, Vertex vlist) {
-    BlueReturn retval = new BlueReturn();
-
     if (vlist == null) {
-      retval.setDist(999999);
-      return retval;
+      return new BlueReturn(vlist, 999999);
     }
 
     Vertex prev = vlist;
-    retval.setVert(vlist);
-    retval.setDist(vlist.mindist());
+    BlueReturn retval = new BlueReturn(vlist, vlist.mindist());
     Hashtable hash = vlist.neighbors();
     Object o = hash.get(inserted);
     if (o != null) {
@@ -121,13 +118,6 @@ public class MST {
       } // else
     } // for
     return retval;
-  }
-
-  private static Vertex MyVertexList = null;
-
-  private static BlueReturn doAllBlueRule(Vertex inserted) {
-    if (inserted == MyVertexList) MyVertexList = MyVertexList.next();
-    return BlueRule(inserted, MyVertexList);
   }
 
   /**

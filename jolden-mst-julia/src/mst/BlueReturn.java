@@ -4,6 +4,11 @@ class BlueReturn {
   private Vertex vert;
   private int dist;
 
+  public BlueReturn(Vertex vert, int dist) {
+    this.vert = vert;
+    this.dist = dist;
+  }
+
   public Vertex vert() {
     return vert;
   }
