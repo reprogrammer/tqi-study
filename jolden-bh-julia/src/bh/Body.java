@@ -10,7 +10,6 @@ public final class Body extends Node {
   double phi;
 
   Body next;
-  private Body procNext;
 
   /**
    * Create an empty body.
@@ -21,7 +20,6 @@ public final class Body extends Node {
     newAcc = new MathVector();
     phi = 0.0;
     next = null;
-    procNext = null;
   }
 
   /**
@@ -40,24 +38,6 @@ public final class Body extends Node {
    **/
   public final Body getNext() {
     return next;
-  }
-
-  /**
-   * Set the next body in the list.
-   * 
-   * @param n the body
-   **/
-  public final void setProcNext(Body n) {
-    procNext = n;
-  }
-
-  /**
-   * Get the next body in the list.
-   * 
-   * @return the next body
-   **/
-  public final Body getProcNext() {
-    return procNext;
   }
 
   /**

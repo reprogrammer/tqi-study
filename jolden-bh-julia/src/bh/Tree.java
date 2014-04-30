@@ -15,10 +15,6 @@ public class Tree {
    * The complete list of bodies that have been created.
    **/
   private Body bodyTab;
-  /**
-   * The complete list of bodies that have been created - in reverse.
-   **/
-  private Body bodyTabRev;
 
   /**
    * Construct the root of the data structure that represents the N-bodies.
@@ -28,7 +24,6 @@ public class Tree {
     rsize = -2.0 * -2.0;
     root = null;
     bodyTab = null;
-    bodyTabRev = null;
 
     rmin.value(0, -2.0);
     rmin.value(1, -2.0);
@@ -42,15 +37,6 @@ public class Tree {
    **/
   public final Enumerator bodies() {
     return bodyTab.elements();
-  }
-
-  /**
-   * Return an enumeration of the bodies - in reverse.
-   * 
-   * @return an enumeration of the bodies - in reverse.
-   **/
-  public final Enumerator bodiesRev() {
-    return bodyTabRev.elements();
   }
 
   /**
@@ -123,18 +109,11 @@ public class Tree {
     cmr.divScalar((double) nbody);
     cmv.divScalar((double) nbody);
 
-    prev = null;
-
     for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
       Body b = e.nextElement();
       b.pos.subtraction(cmr);
       b.vel.subtraction(cmv);
-      b.setProcNext(prev);
-      prev = b;
     }
-
-    // set the reference to the last element
-    bodyTabRev = prev;
   }
 
   /**
@@ -154,7 +133,7 @@ public class Tree {
    * @param nsteps the current time step
    **/
   private void makeTree(int nstep) {
-    for (Enumerator e = bodiesRev(); e.hasMoreElements();) {
+    for (Enumerator e = bodies(); e.hasMoreElements();) {
       Body q = e.nextElement();
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
