@@ -32,7 +32,8 @@ public class Graph {
       Vertex tmp = nodes[i] = new Vertex(v, numvert);
       v = tmp;
     }
-    addEdges(numvert);
+
+    addEdges(nodes, numvert);
   }
 
   /**
@@ -48,17 +49,18 @@ public class Graph {
    * Add edges to the graph. Edges are added to/from every node in the graph and a distance is
    * computed for each of them.
    * 
+   * @param vertices
    * @param numvert the number of nodes in the graph
    **/
-  private void addEdges(int numvert) {
+  private static void addEdges(Vertex[] vertices, int numvert) {
     int count1 = 0;
 
-    for (Vertex tmp = nodes[0]; tmp != null; tmp = tmp.next()) {
+    for (Vertex tmp = vertices[0]; tmp != null; tmp = tmp.next()) {
       Hashtable hash = tmp.neighbors();
       for (int i = 0; i < numvert; i++) {
         if (i != count1) {
           int dist = computeDist(i, count1, numvert);
-          hash.put(nodes[i], new Integer(dist));
+          hash.put(vertices[i], new Integer(dist));
         }
       }
       count1++;
