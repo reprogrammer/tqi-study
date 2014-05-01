@@ -1,16 +1,21 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.Raw;
+import java.lang.SuppressWarnings;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class used to represent internal nodes in the tree
  **/
 public final class Cell extends Node {
   // subcells per cell
-  public final static int NSUB = 8; // 1 << NDIM
+  public final static @SuppressWarnings({"rawness"}) int NSUB = 8; // 1 << NDIM
 
   /**
    * The children of this cell node. Each entry may contain either another cell or a body.
    **/
+  @Nullable
   Node[] subp;
+  @Nullable
   Cell next;
 
   public Cell() {
@@ -43,7 +48,8 @@ public final class Cell extends Node {
    * 
    * @return a string representation of a cell.
    **/
-  public String asString() {
+  @SuppressWarnings({"rawness","nullness"})
+  public String asString(@Raw Cell this) {
     return "Cell " + super.toString();
   }
 

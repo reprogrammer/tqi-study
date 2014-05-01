@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents a vertex in a graph. We maintain a linked list representation of the
  * vertices.
@@ -12,7 +15,7 @@ public class Vertex {
   /**
    * The next vertex in the graph.
    **/
-  Vertex next;
+  @Nullable Vertex next;
   /**
    * A hashtable containing all the connected vertices.
    **/
@@ -23,7 +26,7 @@ public class Vertex {
    * 
    * @param n the next element
    **/
-  public Vertex(Vertex n, int numvert) {
+  public Vertex(@Nullable Vertex n, int numvert) {
     mindist = 9999999;
     next = n;
     neighbors = new Hashtable(numvert / 4);
@@ -37,11 +40,11 @@ public class Vertex {
     mindist = m;
   }
 
-  public Vertex next() {
+  public @Nullable Vertex next() {
     return next;
   }
 
-  public void setNext(Vertex v) {
+  public void setNext(@Nullable Vertex v) {
     next = v;
   }
 

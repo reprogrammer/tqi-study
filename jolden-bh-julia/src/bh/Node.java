@@ -1,4 +1,7 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.Raw;
+import java.lang.SuppressWarnings;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class that represents the common fields of a cell or body data structure.
@@ -14,10 +17,10 @@ public abstract class Node {
   MathVector pos;
 
   // highest bit of int coord
-  static final int IMAX = 1073741824;
+  static final @SuppressWarnings({"rawness","nullness"}) int IMAX = 1073741824;
 
   // potential softening parameter
-  static final double EPS = 0.05;
+  static final @SuppressWarnings({"rawness","nullness"}) double EPS = 0.05;
 
   /**
    * Construct an empty node
@@ -42,7 +45,8 @@ public abstract class Node {
    * 
    * @return a string representation of a node.
    **/
-  public String asString() {
+  @SuppressWarnings({"rawness","nullness"})
+  public String asString(@Raw Node this) {
     return mass + " : " + pos;
   }
 

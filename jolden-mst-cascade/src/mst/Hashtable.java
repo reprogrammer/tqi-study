@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 public class Hashtable {
   protected HashEntry array[];
   protected int size;
@@ -13,7 +16,7 @@ public class Hashtable {
     return ((key.hashCode() >> 3) % size);
   }
 
-  public Object get(Object key) {
+  public @Nullable Object get(Object key) {
     int j = hashMap(key);
 
     HashEntry ent = null;
