@@ -22,11 +22,9 @@ public class Graph {
   public Graph(int numvert) {
     nodes = new Vertex[numvert];
 
-    // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE LOOP BELOW.
-    for (int i = 0; i < numvert; ++i) {
-      nodes[i] = null;
-    }
-    // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE LOOP ABOVE.
+    // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE STATEMENT BELOW.
+    nodes[numvert / 2] = null;
+    // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE STATEMENT ABOVE.
 
     Vertex v = null;
     // the original C code creates them in reverse order
