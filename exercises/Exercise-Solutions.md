@@ -13,7 +13,7 @@ total += right.addTree();
 
 # [Exercise 2](https://github.com/reprogrammer/tqi-study/wiki/Nullness-Checker-Tutorial#exercise-2)
 
-We declare the receiver parameter of `TreeNode.setChildren` as `@UnderInitialization(TreeNode.class) TreeNode this` so that `TreeNode.setChildren` is allowed to be called from the constructor where `this` is not yet fully initialized.
+We declare the receiver parameter of `TreeNode.setChildren` as `@UnderInitialization(Object.class) TreeNode this` so that `TreeNode.setChildren` is allowed to be called from the constructor where `this` is not yet fully initialized.
 
 We also annotate `TreeNode.setChildren` as `@EnsuresNonNull({"left", "right"})` so that the modular and intraprocedural analysis of the Nullness Checker can verify that the constructor assigns non-null values to the fields declared as `@NonNull` (i.e., `left` and `right`).
 
@@ -29,7 +29,7 @@ class TreeNode {
   }
 
   @EnsuresNonNull({"left", "right"})
-  void setChildren(@UnderInitialization(TreeNode.class) TreeNode this, TreeNode l, TreeNode r) {
+  void setChildren(@UnderInitialization(Object.class) TreeNode this, TreeNode l, TreeNode r) {
     left = l;
     right = r;
   }
