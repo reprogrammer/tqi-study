@@ -12,7 +12,7 @@ import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 class Enumerator {
   private @Nullable Body current;
 
-  public Enumerator(Body current) {
+  public Enumerator(@Nullable Body current) {
     this.current = current;
   }
 

@@ -65,10 +65,12 @@ public final class Body extends Node {
         MathVector ic = tree.intcoord(rmid);
         if (ic == null) throw new Error("Value is out of bounds");
         int k = oldSubindex(ic, IMAX >> 1);
-        Cell newt = new Cell();
-        newt.subp[k] = tree.root;
-        tree.root = newt;
-        inbox = icTest(tree);
+        if (tree.root != null) {
+          Cell newt = new Cell();
+          newt.subp[k] = tree.root;
+          tree.root = newt;
+          inbox = icTest(tree);
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 package bh;
 
+
 /**
  * A class that represents the root of the data structure used to represent the N-bodies in the
  * Barnes-Hut algorithm.
@@ -36,7 +37,11 @@ public class Tree {
    * @return an enumeration of the bodies.
    **/
   public final Enumerator bodies() {
-    return bodyTab.elements();
+    if (bodyTab == null) {
+      return new Enumerator(null);
+    } else {
+      return bodyTab.elements();
+    }
   }
 
   /**
@@ -109,10 +114,12 @@ public class Tree {
     cmr.divScalar((double) nbody);
     cmv.divScalar((double) nbody);
 
-    for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
-      Body b = e.nextElement();
-      b.pos.subtraction(cmr);
-      b.vel.subtraction(cmv);
+    if (bodyTab != null) {
+      for (Enumerator e = bodyTab.elements(); e.hasMoreElements();) {
+        Body b = e.nextElement();
+        b.pos.subtraction(cmr);
+        b.vel.subtraction(cmv);
+      }
     }
   }
 
@@ -138,6 +145,9 @@ public class Tree {
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
         MathVector xqic = intcoord(q.pos);
+        if (xqic == null) {
+          System.out.println("Error: Unexpected body position");
+        }
         if (root == null) {
           root = q;
         } else {
