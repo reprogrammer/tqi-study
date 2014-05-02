@@ -80,3 +80,66 @@ public class TreeNode {
     children = nonNullLocalChildren;
   }
 ```
+# [Exercise 5](https://github.com/reprogrammer/tqi-study/wiki/Nullness-Checker-Tutorial#exercise-5)
+
+Overriding methods cannot weaken the contracts of the methods that they override. There are several ways of resolving the warnings. The following is an incomplete list of the possible solutions.
+
+## Solution 1
+
+```java
+interface Function {
+  String @Nullable apply(String input);
+}
+
+class Trimmer implements Function {
+  @Override
+  public @Nullable String apply(String input) {
+    return input.trim();
+  }
+}
+```
+
+## Solution 2
+
+```java
+interface Function {
+  String apply(@Nullable String input);
+}
+
+class Trimmer implements Function {
+  @Override
+  public String apply(@Nullable String input) {
+    return input == null ? "" : input.trim();
+  }
+}
+```
+
+## Solution 3
+
+```java
+interface Function {
+  @Nullable String apply(@Nullable String input);
+}
+
+class Trimmer implements Function {
+  @Override
+  public String apply(@Nullable String input) {
+    return input == null ? "" : input.trim();
+  }
+}
+```
+
+## Solution 4
+
+```java
+interface Function {
+  @Nullable String apply(@Nullable String input);
+}
+
+class Trimmer implements Function {
+  @Override
+  public @Nullable String apply(@Nullable String input) {
+    return input == null ? "" : input.trim();
+  }
+}
+```
