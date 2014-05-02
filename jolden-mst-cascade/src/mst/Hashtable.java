@@ -1,5 +1,7 @@
 package mst;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 public class Hashtable {
   protected HashEntry array[];
   protected int size;
@@ -13,7 +15,7 @@ public class Hashtable {
     return ((key.hashCode() >> 3) % size);
   }
 
-  public Object get(Object key) {
+  public @Nullable Object get(Object key) {
     int j = hashMap(key);
 
     HashEntry ent = null;
@@ -24,7 +26,7 @@ public class Hashtable {
     return null;
   }
 
-  public void put(Object key, Object value) {
+  public void put(Vertex key, Object value) {
     int j = hashMap(key);
     HashEntry ent = new HashEntry(key, value, array[j]);
     array[j] = ent;

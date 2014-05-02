@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * A class representing a three dimensional vector that implements several math operations. To
  * improve speed we implement the vector as an array of doubles rather than use the existing code in
@@ -101,7 +103,7 @@ public class MathVector implements Cloneable {
    * @param u the first operand of the subtraction.
    * @param v the second operand of the subtraction
    **/
-  public final void subtraction(MathVector u, MathVector v) {
+  public final void subtraction(@NonNull MathVector u, @NonNull MathVector v) {
     for (int i = 0; i < NDIM; i++) {
       data[i] = u.data[i] - v.data[i];
     }
@@ -124,7 +126,7 @@ public class MathVector implements Cloneable {
    * @param u the vector
    * @param s the scalar value
    **/
-  public final void multScalar(MathVector u, double s) {
+  public final void multScalar(@NonNull MathVector u, double s) {
     for (int i = 0; i < NDIM; i++) {
       data[i] = u.data[i] * s;
     }
@@ -162,7 +164,7 @@ public class MathVector implements Cloneable {
     return Math.sqrt(tmp);
   }
 
-  public final double distance(MathVector v) {
+  public final double distance(@NonNull MathVector v) {
     double tmp = 0.0;
     for (int i = 0; i < NDIM; i++) {
       tmp += ((data[i] - v.data[i]) * (data[i] - v.data[i]));
@@ -170,19 +172,19 @@ public class MathVector implements Cloneable {
     return Math.sqrt(tmp);
   }
 
-  public final void crossProduct(MathVector u, MathVector w) {
+  public final void crossProduct(@NonNull MathVector u, @NonNull MathVector w) {
     data[0] = u.data[1] * w.data[2] - u.data[2] * w.data[1];
     data[1] = u.data[2] * w.data[0] - u.data[0] * w.data[2];
     data[2] = u.data[0] * w.data[1] - u.data[1] * w.data[0];
   }
 
-  public final void incrementalAdd(MathVector u) {
+  public final void incrementalAdd(@NonNull MathVector u) {
     for (int i = 0; i < NDIM; i++) {
       data[i] += u.data[i];
     }
   }
 
-  public final void incrementalSub(MathVector u) {
+  public final void incrementalSub(@NonNull MathVector u) {
     for (int i = 0; i < NDIM; i++) {
       data[i] -= u.data[i];
     }

@@ -2,6 +2,7 @@ package bh;
 
 import static org.junit.Assert.assertEquals;
 
+import org.checkerframework.checker.nullness.qual.Raw;
 import org.junit.Test;
 
 public class BHTest {
@@ -10,7 +11,7 @@ public class BHTest {
   private static double TSTOP = 2.0;
 
   @Test
-  public void test() {
+  public void test(@Raw BHTest this) {
     int nsteps = 10;
     int nbody = 5;
     Tree root = new Tree();
