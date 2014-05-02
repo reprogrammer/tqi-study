@@ -80,7 +80,7 @@
 	<target name="compile" depends="clean, reorg.deps">
 		<!-- use jsr308.javac instead of javac -->
 		<jsr308.javac srcdir="${src.dir}" classpath="${junit.jar}" destdir="${build.dir}" failonerror="false">
-			<compilerarg line="-processor org.checkerframework.checker.nullness.NullnessChecker" />
+			<compilerarg line="-processor ${processor}" />
 			<!-- optional, for implicit imports: <compilerarg value="-J-Djsr308_imports=org.checkerframework.checker.nullness.qual.*:org.checkerframework.dataflow.qual.*"/> -->
 			<!-- optional, to not check uses of library methods: <compilerarg value="-AskipUses=^(java\.awt\.|javax\.swing\.)"/> -->
 			<compilerarg line="-Xmaxerrs 10000" />
