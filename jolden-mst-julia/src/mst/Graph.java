@@ -20,7 +20,7 @@ public class Graph {
    * @param numvert the number of vertices in the graph
    **/
   public Graph(int numvert) {
-    nodes = new Vertex[numvert];
+    Vertex[] nodes = new Vertex[numvert];
 
     // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE STATEMENT BELOW.
     nodes[numvert / 2] = null;
@@ -32,6 +32,8 @@ public class Graph {
       Vertex tmp = nodes[i] = new Vertex(v, numvert);
       v = tmp;
     }
+
+    this.nodes = nodes;
 
     addEdges(nodes, numvert);
   }
