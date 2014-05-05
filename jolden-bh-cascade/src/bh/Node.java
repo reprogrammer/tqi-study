@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents the common fields of a cell or body data structure.
  **/
@@ -27,7 +29,7 @@ public abstract class Node {
     pos = new MathVector();
   }
 
-  abstract Node loadTree(Body p, MathVector xpic, int l, Tree root);
+  abstract Node loadTree(Body p, @Nullable MathVector xpic, int l, Tree root);
 
   public static final int oldSubindex(MathVector ic, int l) {
     int i = 0;

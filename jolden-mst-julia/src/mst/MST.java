@@ -54,6 +54,7 @@ public class MST {
    * @param numvert the number of vertices in the graph
    * @return the minimum spanning tree cost
    **/
+
   public static int computeMST(Graph graph, int numvert) {
     int cost = 0;
 
