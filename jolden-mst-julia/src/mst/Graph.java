@@ -1,5 +1,7 @@
 package mst;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents a graph data structure.
  **/
@@ -7,12 +9,12 @@ public class Graph {
   /**
    * List of vertices in the graph.
    **/
-  private Vertex[] nodes;
+  private @Nullable Vertex[] nodes;
 
   // parameters for the random number generator
-  private final static int CONST_m1 = 10000;
-  private final static int CONST_b = 31415821;
-  private final static int RANGE = 2048;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int CONST_m1 = 10000;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int CONST_b = 31415821;
+  private final static @SuppressWarnings({"rawness", "nullness"}) int RANGE = 2048;
 
   /**
    * Create a graph.
@@ -20,6 +22,7 @@ public class Graph {
    * @param numvert the number of vertices in the graph
    **/
   public Graph(int numvert) {
+    @Nullable
     Vertex[] nodes = new Vertex[numvert];
 
     // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE STATEMENT BELOW.
@@ -33,6 +36,7 @@ public class Graph {
       v = tmp;
     }
 
+    @SuppressWarnings("nullness")
     Vertex[] initializedNodes = nodes;
 
     this.nodes = initializedNodes;
@@ -45,7 +49,7 @@ public class Graph {
    * 
    * @return the first node in the graph.
    **/
-  public Vertex firstNode() {
+  public @Nullable Vertex firstNode() {
     return nodes[0];
   }
 
@@ -56,7 +60,7 @@ public class Graph {
    * @param vertices
    * @param numvert the number of nodes in the graph
    **/
-  private static void addEdges(Vertex[] vertices, int numvert) {
+  private static void addEdges(@Nullable Vertex[] vertices, int numvert) {
     int count1 = 0;
 
     for (Vertex tmp = vertices[0]; tmp != null; tmp = tmp.next()) {
@@ -64,6 +68,7 @@ public class Graph {
       for (int i = 0; i < numvert; i++) {
         if (i != count1) {
           int dist = computeDist(i, count1, numvert);
+          assert (vertices[i] != null) : "@AssumeAssertion(nullness)";
           hash.put(vertices[i], new Integer(dist));
         }
       }

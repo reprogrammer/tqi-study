@@ -59,6 +59,7 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
+    assert (inserted != null) : "@AssumeAssertion(nullness)";
     Vertex vlist = inserted.next();
     numvert--;
 
