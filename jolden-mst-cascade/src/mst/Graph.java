@@ -33,7 +33,9 @@ public class Graph {
       v = tmp;
     }
 
-    this.nodes = nodes;
+    Vertex[] initializedNodes = nodes;
+
+    this.nodes = initializedNodes;
 
     addEdges(nodes, numvert);
   }
