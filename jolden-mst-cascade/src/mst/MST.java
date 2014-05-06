@@ -1,5 +1,6 @@
 package mst;
 
+
 /**
  * A Java implementation of the <tt>mst</tt> Olden benchmark. The Olden benchmark computes the
  * minimum spanning tree of a graph using Bentley's algorithm.
@@ -59,6 +60,7 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
+    assert inserted != null : "@AssumeAssertion(nullness)";
     Vertex vlist = inserted.next();
     numvert--;
 

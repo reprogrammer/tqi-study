@@ -1,4 +1,7 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.Raw;
+import java.lang.SuppressWarnings;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class used to representing particles in the N-body simulation.
@@ -9,6 +12,7 @@ public final class Body extends Node {
   MathVector newAcc;
   double phi;
 
+  @Nullable
   Body next;
 
   /**
@@ -27,7 +31,7 @@ public final class Body extends Node {
    * 
    * @param n the body
    **/
-  public final void setNext(Body n) {
+  public final void setNext(@Nullable Body n) {
     next = n;
   }
 
@@ -36,7 +40,7 @@ public final class Body extends Node {
    * 
    * @return the next body
    **/
-  public final Body getNext() {
+  public final @Nullable Body getNext() {
     return next;
   }
 
@@ -114,7 +118,7 @@ public final class Body extends Node {
    * @param tree the root of the data structure
    * @return the subtree with the new body inserted
    **/
-  public final Node loadTree(Body p, MathVector xpic, int l, Tree tree) {
+  public final Node loadTree(Body p, @Nullable MathVector xpic, int l, Tree tree) {
     // create a Cell
     Cell retval = new Cell();
     int si = subindex(tree, l);
@@ -171,7 +175,8 @@ public final class Body extends Node {
    * 
    * @return a string representation of a body.
    **/
-  public String asString() {
+  @SuppressWarnings({"rawness","nullness"})
+  public String asString(@Raw Body this) {
     return "Body " + super.asString();
   }
 

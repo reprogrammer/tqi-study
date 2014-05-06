@@ -1,4 +1,7 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.Raw;
+import java.lang.SuppressWarnings;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class that represents the common fields of a cell or body data structure.
@@ -27,10 +30,11 @@ public abstract class Node {
     pos = new MathVector();
   }
 
-  abstract Node loadTree(Body p, MathVector xpic, int l, Tree root);
+  abstract Node loadTree(Body p, @Nullable MathVector xpic, int l, Tree root);
 
-  public static final int oldSubindex(MathVector ic, int l) {
+  public static final int oldSubindex(@Nullable MathVector ic, int l) {
     int i = 0;
+    assert ic != null : "@AssumeAssertion(nullness)";
     for (int k = 0; k < MathVector.NDIM; k++) {
       if (((int) ic.value(k) & l) != 0) i += Cell.NSUB >> (k + 1);
     }
@@ -42,7 +46,7 @@ public abstract class Node {
    * 
    * @return a string representation of a node.
    **/
-  public String asString() {
+  public String asString(@Raw Node this) {
     return mass + " : " + pos;
   }
 

@@ -1,4 +1,10 @@
 package bh;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Raw;
+
+import java.lang.SuppressWarnings;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class representing a three dimensional vector that implements several math operations. To
@@ -13,7 +19,7 @@ public class MathVector implements Cloneable {
   /**
    * An array containing the values in the vector.
    **/
-  private double data[];
+  private double data @NonNull[];
 
   /**
    * Construct an empty 3 dimensional vector for use in Barnes-Hut algorithm.
@@ -30,7 +36,8 @@ public class MathVector implements Cloneable {
    * 
    * @return a clone of the math vector
    **/
-  public Object cloned() {
+  @SuppressWarnings("nullness")
+  public Object cloned(@Raw MathVector this) {
     try {
       MathVector v = (MathVector) super.clone();
       v.data = new double[NDIM];
@@ -66,7 +73,8 @@ public class MathVector implements Cloneable {
   /**
    * Set one of the dimensions of the vector to 1.0 param j the dimension to set.
    **/
-  public final void unit(int j) {
+  @SuppressWarnings("nullness")
+  public final void unit(@Raw MathVector this, int j) {
     for (int i = 0; i < NDIM; i++) {
       data[i] = (i == j ? 1.0 : 0.0);
     }
@@ -101,7 +109,8 @@ public class MathVector implements Cloneable {
    * @param u the first operand of the subtraction.
    * @param v the second operand of the subtraction
    **/
-  public final void subtraction(MathVector u, MathVector v) {
+  @SuppressWarnings("nullness")
+  public final void subtraction(@Raw MathVector this, @Raw MathVector u, @Raw MathVector v) {
     for (int i = 0; i < NDIM; i++) {
       data[i] = u.data[i] - v.data[i];
     }
@@ -124,7 +133,8 @@ public class MathVector implements Cloneable {
    * @param u the vector
    * @param s the scalar value
    **/
-  public final void multScalar(MathVector u, double s) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void multScalar(@Raw MathVector this, @Raw MathVector u, double s) {
     for (int i = 0; i < NDIM; i++) {
       data[i] = u.data[i] * s;
     }
@@ -154,7 +164,8 @@ public class MathVector implements Cloneable {
     return s;
   }
 
-  public final double absolute() {
+  @SuppressWarnings({"rawness","nullness"})
+  public final double absolute(@Raw MathVector this) {
     double tmp = 0.0;
     for (int i = 0; i < NDIM; i++) {
       tmp += data[i] * data[i];
@@ -162,7 +173,8 @@ public class MathVector implements Cloneable {
     return Math.sqrt(tmp);
   }
 
-  public final double distance(MathVector v) {
+  @SuppressWarnings("nullness")
+  public final double distance(@Raw MathVector this, @Raw MathVector v) {
     double tmp = 0.0;
     for (int i = 0; i < NDIM; i++) {
       tmp += ((data[i] - v.data[i]) * (data[i] - v.data[i]));
@@ -170,31 +182,36 @@ public class MathVector implements Cloneable {
     return Math.sqrt(tmp);
   }
 
-  public final void crossProduct(MathVector u, MathVector w) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void crossProduct(@Raw MathVector this, @Raw MathVector u, @Raw MathVector w) {
     data[0] = u.data[1] * w.data[2] - u.data[2] * w.data[1];
     data[1] = u.data[2] * w.data[0] - u.data[0] * w.data[2];
     data[2] = u.data[0] * w.data[1] - u.data[1] * w.data[0];
   }
 
-  public final void incrementalAdd(MathVector u) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void incrementalAdd(@Raw MathVector this, @Raw MathVector u) {
     for (int i = 0; i < NDIM; i++) {
       data[i] += u.data[i];
     }
   }
 
-  public final void incrementalSub(MathVector u) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void incrementalSub(@Raw MathVector this, @Raw MathVector u) {
     for (int i = 0; i < NDIM; i++) {
       data[i] -= u.data[i];
     }
   }
 
-  public final void incrementalMultScalar(double s) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void incrementalMultScalar(@Raw MathVector this, double s) {
     for (int i = 0; i < NDIM; i++) {
       data[i] *= s;
     }
   }
 
-  public final void incrementalDivScalar(double s) {
+  @SuppressWarnings({"rawness","nullness"})
+  public final void incrementalDivScalar(@Raw MathVector this, double s) {
     for (int i = 0; i < NDIM; i++) {
       data[i] /= s;
     }
