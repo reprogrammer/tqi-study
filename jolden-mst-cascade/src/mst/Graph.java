@@ -64,7 +64,7 @@ public class Graph {
       for (int i = 0; i < numvert; i++) {
         if (i != count1) {
           int dist = computeDist(i, count1, numvert);
-          hash.put(vertices[i], new Integer(dist));
+          hash.put((Object) vertices[i], new Integer(dist));
         }
       }
       count1++;
