@@ -1,16 +1,19 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Raw;
+import java.lang.SuppressWarnings;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 public class BHTest {
 
-  static double DTIME = 0.0125;
-  private static double TSTOP = 2.0;
+  static  double DTIME = 0.0125;
+  private static  double TSTOP = 2.0;
 
+  @SuppressWarnings({"rawness","nullness"})
   @Test
-  public void test() {
+  public void test(@Raw BHTest this) {
     int nsteps = 10;
     int nbody = 5;
     Tree root = new Tree();

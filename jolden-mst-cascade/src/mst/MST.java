@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A Java implementation of the <tt>mst</tt> Olden benchmark. The Olden benchmark computes the
  * minimum spanning tree of a graph using Bentley's algorithm.
@@ -58,8 +61,10 @@ public class MST {
     int cost = 0;
 
     // Insert first node
-    Vertex inserted = graph.firstNode();
-    Vertex vlist = inserted.next();
+    
+    @SuppressWarnings("nullness")
+    @NonNull Vertex inserted = graph.firstNode();
+    @Nullable Vertex vlist = inserted.next();
     numvert--;
 
     // Announce insertion and find next one
