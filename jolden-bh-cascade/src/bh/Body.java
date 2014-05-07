@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class used to representing particles in the N-body simulation.
  **/
@@ -9,6 +11,7 @@ public final class Body extends Node {
   MathVector newAcc;
   double phi;
 
+  @Nullable
   Body next;
 
   /**
@@ -27,7 +30,7 @@ public final class Body extends Node {
    * 
    * @param n the body
    **/
-  public final void setNext(Body n) {
+  public final void setNext(@Nullable Body n) {
     next = n;
   }
 
@@ -36,7 +39,7 @@ public final class Body extends Node {
    * 
    * @return the next body
    **/
-  public final Body getNext() {
+  public final @Nullable Body getNext() {
     return next;
   }
 
@@ -64,6 +67,7 @@ public final class Body extends Node {
       if (tree.root != null) {
         MathVector ic = tree.intcoord(rmid);
         if (ic == null) throw new Error("Value is out of bounds");
+        assert ic != null : "@AssumeAssertion(nullness)";
         int k = oldSubindex(ic, IMAX >> 1);
         if (tree.root != null) {
           Cell newt = new Cell();

@@ -1,5 +1,7 @@
 package bh;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 
 /**
  * A class that represents the root of the data structure used to represent the N-bodies in the
@@ -11,11 +13,12 @@ public class Tree {
   /**
    * A reference to the root node.
    **/
+  @Nullable
   Node root;
   /**
    * The complete list of bodies that have been created.
    **/
-  private Body bodyTab;
+  private @Nullable Body bodyTab;
 
   /**
    * Construct the root of the data structure that represents the N-bodies.
@@ -145,6 +148,7 @@ public class Tree {
       if (q.mass != 0.0) {
         q.expandBox(this, nstep);
         MathVector xqic = intcoord(q.pos);
+        assert xqic != null : "@AssumeAssertion(nullness)";
         if (xqic == null) {
           System.out.println("Error: Unexpected body position");
         }
@@ -162,7 +166,7 @@ public class Tree {
    * 
    * @return the coordinates or null if vp is out of bounds
    **/
-  public final MathVector intcoord(MathVector vp) {
+  public final @Nullable MathVector intcoord(MathVector vp) {
     MathVector xp = new MathVector();
 
     double xsc = (vp.value(0) - rmin.value(0)) / rsize;
