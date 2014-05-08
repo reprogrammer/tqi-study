@@ -59,6 +59,7 @@ public class MST {
 
     // Insert first node
     Vertex inserted = graph.firstNode();
+    @SuppressWarnings("nullness")
     Vertex vlist = inserted.next();
     numvert--;
 
