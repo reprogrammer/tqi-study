@@ -37,7 +37,7 @@ public class Graph {
 
     this.nodes = initializedNodes;
 
-    addEdges(nodes, numvert);
+    addEdges(this.nodes, numvert);
   }
 
   /**
