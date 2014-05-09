@@ -56,9 +56,14 @@ public class MST {
    **/
   public static int computeMST(Graph graph, int numvert) {
     int cost = 0;
-
+    
     // Insert first node
     Vertex inserted = graph.firstNode();
+
+    // If graph is empty, return 0
+    if (inserted == null)
+    	return 0;
+
     Vertex vlist = inserted.next();
     numvert--;
 
