@@ -1,5 +1,8 @@
 package mst;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class that represents a graph data structure.
  **/
@@ -20,7 +23,7 @@ public class Graph {
    * @param numvert the number of vertices in the graph
    **/
   public Graph(int numvert) {
-    Vertex[] nodes = new Vertex[numvert];
+    @Nullable Vertex[] nodes = new Vertex[numvert];
 
     // TO PARTICIPANTS: PLEASE DO NOT REMOVE OR CHANGE THE STATEMENT BELOW.
     nodes[numvert / 2] = null;
@@ -33,11 +36,12 @@ public class Graph {
       v = tmp;
     }
 
-    Vertex[] initializedNodes = nodes;
+    @SuppressWarnings("nullness")
+    @NonNull Vertex[] initializedNodes = nodes;
 
     this.nodes = initializedNodes;
 
-    addEdges(nodes, numvert);
+    addEdges(initializedNodes, numvert);
   }
 
   /**
