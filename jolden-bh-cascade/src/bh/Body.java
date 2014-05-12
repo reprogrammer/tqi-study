@@ -1,5 +1,8 @@
 package bh;
 
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * A class used to representing particles in the N-body simulation.
  **/
@@ -9,7 +12,7 @@ public final class Body extends Node {
   MathVector newAcc;
   double phi;
 
-  Body next;
+  @Nullable Body next;
 
   /**
    * Create an empty body.
@@ -27,7 +30,7 @@ public final class Body extends Node {
    * 
    * @param n the body
    **/
-  public final void setNext(Body n) {
+  public final void setNext(@Nullable Body n) {
     next = n;
   }
 
@@ -36,7 +39,7 @@ public final class Body extends Node {
    * 
    * @return the next body
    **/
-  public final Body getNext() {
+  public final @Nullable Body getNext() {
     return next;
   }
 
